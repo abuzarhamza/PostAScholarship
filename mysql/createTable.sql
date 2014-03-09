@@ -86,5 +86,44 @@ create table if not exists tag_post_rel (
 
 create table if not exists post (
     id int not null auto increment primary key,
+    author_id int not null foreign key (author_id) references user_profile(id),
+    title varchar(250),
+    content text, --mark down content
+    html text, --sanitize html content for display
+    slug varchar(250),
+    view int not null default 1,
+    score int not null default 0,
+    full_score int ,
+    creation_date datetime,
+    lastedit_date datetime,
+    lastedit_user_id int  foreign key (lastedit_user_id) references user_profile(id),
+    changed tinyint ,-- keep track of which post has changed
+    post_type varchar(50),
+    root tinyint not null default 1, --this will maintain the ancestor/descendant relationship between posts
+    parent int unique key references post(id),  --maintain parent child relation ship
+    context text , -- use to display the context the post was created/edited 
+    answer_count int not null default 0,
+    book_count int not null default 0,
+    accepted_answer tinyint , -- weather answer was accepted
+    url varchar(255), -- used for post with linkouts
+    sticky int not null default 0 -- stickiness of the post
+);
 
-)
+create table if not exists post_view (
+    ip varchar(50),
+    post_id int,
+    datetime datetime.
+    foreign key (post_id) references post(id),
+    primary key (ip,post_id)
+);
+
+create table if not exists related_post (
+);
+
+create table if not exists post_revision (
+);
+
+create table if not exists vote (
+    
+);
+
