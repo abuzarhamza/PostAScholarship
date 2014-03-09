@@ -20,6 +20,22 @@ create table if not exists user_profile (
 )database=Innodb;
 
 
+
+create table if not exists privalege (
+    id int not null auto increment primary key,
+    name varchar(30),
+    description text,
+);
+
+create table if not exists user_privalege_rel (
+    id int not null auto increment primary key,
+    privalege_id int,
+    user_id int,
+    foreign key privalege_id references privalege(id),
+    foreign key user_id references user_profile(id)
+);
+
+
 create table if not exists badge (
     id int not null auto increment primary key,
     name varchar(50),
@@ -85,15 +101,16 @@ create table if not exists tag_post_rel (
 );
 
 create table if not exists post (
-    id int not null auto increment primary key,
+    id int auto increment not null primary key,
     author_id int not null foreign key (author_id) references user_profile(id),
     title varchar(250),
     content text, --mark down content
     html text, --sanitize html content for display
     slug varchar(250),
-    view int not null default 1,
+    view int not null default 0,
     score int not null default 0,
     full_score int ,
+    flag tinyint default 0, -- if he post is marked for spamming etc
     creation_date datetime,
     lastedit_date datetime,
     lastedit_user_id int  foreign key (lastedit_user_id) references user_profile(id),
@@ -118,12 +135,51 @@ create table if not exists post_view (
 );
 
 create table if not exists related_post (
+    id int not null auto increment primary key,
+    post_id int ,
+    target_id int,
+    foreign key post_id references post(id),
+    foreign key target_id references post(id),
 );
 
 create table if not exists post_revision (
+    id int not null auto increment primary key,
+    post_id int ,
+    diff text,
+    context text,
+    author_id int ,
+    datetime datetime,
+    foreign key post_id references post(id),
+    foreign key author_id references user_profile(id),  
 );
 
 create table if not exists vote (
-    
+    id int not null auto increment primary key,
+    post_id int ,
+    type varchar(30),--type VOTE_UP|VOTE_DOWN|VOTE_ACCEPT|VOTE_BOOKMARK|VOTE_FLAG 
+    datetime datetime,
+    author_id int ,
+    foreign key post_id references post(id),
+    foreign key author_id references user_profile(id)
 );
 
+
+create table if not exists flag (
+    id int not null auto increment primary key,
+    post_id int , 
+    datetime datetime,
+    author_id int ,
+    context text default null,
+    foreign key post_id references post(id),
+    foreign key author_id references user_profile(id) 
+);
+
+
+create table if not exists flag_status (
+    id int not null auto increment primary key,
+    post_id int , 
+    moderator_id int ,
+    approved tinyint not null default 0,
+    foreign key post_id references post(id),
+    foreign key moderator_id references user_profile(id)  
+);
