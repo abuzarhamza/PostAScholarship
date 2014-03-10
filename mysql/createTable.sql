@@ -16,9 +16,9 @@ create table if not exists user_profile (
     about_me_html varchar(700),
     status varchar(30) -- suspended or active
     email_varified tinyint default 0,
+    add_disable tinyint default 0, -- user will be able to disable after certain point level
     mytags text 
 )database=Innodb;
-
 
 
 create table if not exists privalege (
@@ -57,7 +57,6 @@ create table if not exists user_badge_rel (
 );
 
 
-
 create table if not exists notes (
     id int not null auto increment primary key,
     note_sender_id int not null,
@@ -79,7 +78,8 @@ create table if not exists tag (
     tag_description varchar(250),
     tag_count int default 0,
     alias tinyint default 0, -- 0 or 1
-    main tinyint default 0 -- 0 or 1
+    main tinyint default 0 ,-- 0 or 1
+    tag_enable tinyint default 0 ,-- user suggested tag to be ebabled.
 );
 
 create table if not exists tag_alias (
@@ -99,6 +99,15 @@ create table if not exists tag_post_rel (
     foreign key (tag_id) references tag(id),
     foreign key (post_id) references post(id)
 );
+
+
+create table if not exists follow_tag (
+     id int not null auto increment primary key,
+     regex text, -- trigger need to be used for sending email to end user. 
+     user_id int ,
+     foreign key (user_id) refernce user_profile(id)
+);
+
 
 create table if not exists post (
     id int auto increment not null primary key,
