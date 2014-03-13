@@ -1,5 +1,5 @@
 create table if not exists user_profile (
-    id int not null auto increment primary key,
+    id int not null auto_increment primary key,
     user_name varchar(30),
     display_name varchar(30),
     first_name varchar(30),
@@ -22,13 +22,13 @@ create table if not exists user_profile (
 
 
 create table if not exists privalege (
-    id int not null auto increment primary key,
+    id int not null auto_increment primary key,
     name varchar(30),
     description text,
 )database=MyISAM;
 
 create table if not exists user_privalege_rel (
-    id int not null auto increment primary key,
+    id int not null auto_increment primary key,
     privalege_id int,
     user_id int,
     foreign key privalege_id references privalege(id),
@@ -37,7 +37,7 @@ create table if not exists user_privalege_rel (
 
 
 create table if not exists badge (
-    id int not null auto increment primary key,
+    id int not null auto_increment primary key,
     name varchar(50),
     description varchar(250),
     type varchar(30), -- gold silver bronze iron
@@ -48,7 +48,7 @@ create table if not exists badge (
 
 
 create table if not exists user_badge_rel (
-    id int not null auto increment primary key,
+    id int not null auto_increment primary key,
     badge_id int not null,
     user_id int not null,
     date datetime,
@@ -58,7 +58,7 @@ create table if not exists user_badge_rel (
 
 
 create table if not exists notes (
-    id int not null auto increment primary key,
+    id int not null auto_increment primary key,
     note_sender_id int not null,
     note_target_id int not null,
     content text,
@@ -73,7 +73,7 @@ create table if not exists notes (
 
 
 create table if not exists tag (
-    id int not null auto increment primary key,
+    id int not null auto_increment primary key,
     tag_name varchar(60) not null,
     tag_description varchar(250),
     tag_count int default 0,
@@ -83,7 +83,7 @@ create table if not exists tag (
 );
 
 create table if not exists tag_alias (
-    id int not null auto increment primary key,
+    id int not null auto_increment primary key,
     alias_id1 int not null,
     alias_id2 int  not null,
     foreign key (alias_id1) references tag(id),
@@ -92,7 +92,7 @@ create table if not exists tag_alias (
 
 
 create table if not exists tag_post_rel (
-    id int not null auto increment primary key,
+    id int not null auto_increment primary key,
     tag_id int not null,
     post_id not null,
     date datetime,
@@ -102,7 +102,7 @@ create table if not exists tag_post_rel (
 
 
 create table if not exists follow_tag (
-     id int not null auto increment primary key,
+     id int not null auto_increment primary key,
      regex text, -- trigger need to be used for sending email to end user. 
      user_id int ,
      foreign key (user_id) refernce user_profile(id)
@@ -110,7 +110,7 @@ create table if not exists follow_tag (
 
 
 create table if not exists post (
-    id int auto increment not null primary key,
+    id int auto_increment not null primary key,
     author_id int not null foreign key (author_id) references user_profile(id),
     title varchar(250),
     content text, --mark down content
@@ -144,7 +144,7 @@ create table if not exists post_view (
 );
 
 create table if not exists related_post (
-    id int not null auto increment primary key,
+    id int not null auto_increment primary key,
     post_id int ,
     target_id int,
     foreign key post_id references post(id),
@@ -152,7 +152,7 @@ create table if not exists related_post (
 );
 
 create table if not exists post_revision (
-    id int not null auto increment primary key,
+    id int not null auto_increment primary key,
     post_id int ,
     diff text,
     context text,
@@ -163,7 +163,7 @@ create table if not exists post_revision (
 );
 
 create table if not exists vote (
-    id int not null auto increment primary key,
+    id int not null auto_increment primary key,
     post_id int ,
     type varchar(30),--type VOTE_UP|VOTE_DOWN|VOTE_ACCEPT|VOTE_BOOKMARK|VOTE_FLAG 
     datetime datetime,
@@ -174,7 +174,7 @@ create table if not exists vote (
 
 
 create table if not exists flag (
-    id int not null auto increment primary key,
+    id int not null auto_increment primary key,
     post_id int , 
     datetime datetime,
     author_id int ,
@@ -185,7 +185,7 @@ create table if not exists flag (
 
 
 create table if not exists flag_status (
-    id int not null auto increment primary key,
+    id int not null auto_increment primary key,
     post_id int , 
     moderator_id int ,
     approved tinyint not null default 0,
