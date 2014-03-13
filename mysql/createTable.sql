@@ -14,18 +14,18 @@ create table if not exists user_profile (
     score int not null default 0,
     rank int not null default 0,
     about_me_html varchar(700),
-    status varchar(30) -- suspended or active
+    status varchar(30), -- suspended or active
     email_varified tinyint default 0,
-    add_disable tinyint default 0, -- user will be able to disable after certain point level
+    addver_disable tinyint default 0, -- user will be able to disable addversitesment after certain point level
     mytags text 
-)database=Innodb;
+) engine =innodb;
 
 
 create table if not exists privalege (
     id int not null auto_increment primary key,
     name varchar(30),
     description text,
-)database=MyISAM;
+) engine=myisam;
 
 create table if not exists user_privalege_rel (
     id int not null auto_increment primary key,
@@ -33,7 +33,7 @@ create table if not exists user_privalege_rel (
     user_id int,
     foreign key privalege_id references privalege(id),
     foreign key user_id references user_profile(id)
-)database=MyISAM;
+) engine=innodb;
 
 
 create table if not exists badge (
@@ -44,7 +44,7 @@ create table if not exists badge (
     unique tinyint , -- unique badge can be earn once
     secret tinyint , -- are not listed
     count int default 0 -- total number of times awarded
-)database=MyISAM;
+) engine= myisam;
 
 
 create table if not exists user_badge_rel (
@@ -54,21 +54,21 @@ create table if not exists user_badge_rel (
     date datetime,
     foreign key badge_id references badge(id),
     foreign key user_id references user_profile(id)
-);
+) engine=myisam;
 
 
 create table if not exists notes (
     id int not null auto_increment primary key,
     note_sender_id int not null,
     note_target_id int not null,
-    content text,
-    html text,
+    content text, --mark down
+    html text, -- html for better display
     date datetime,
-    unread tinyint, -- 1 or 0
+    unread tinyint default 0, -- 1 or 0
     type varchar(30), -- note type,
     foreign key (note_sender_id) references user_profile(id),
     foreign key (note_target_id) references user_profile(id)
-);
+) engine=innodb;
 
 
 
@@ -78,7 +78,8 @@ create table if not exists tag (
     tag_description varchar(250),
     tag_count int default 0,
     alias tinyint default 0, -- 0 or 1
-    main tinyint default 0 ,-- 0 or 1
+    parent tinyint default 1,-- 0 or 1
+    child tinyint default 0,
     tag_enable tinyint default 0 -- user suggested tag to be ebabled.
 );
 
