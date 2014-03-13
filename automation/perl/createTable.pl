@@ -49,16 +49,16 @@ sub satantize_query {
     my $tmpSQL  = ""; 
     foreach (split(/\n/,$query)) {
         chomp;
-	if ($_=~/^--/ || $_ eq "") {
-		next;
-	}
+    if ($_=~/^--/ || $_ eq "") {
+        next;
+    }
         elsif ($_=~/(.+)--.+/) {
-	     $tmpSQL .= $1."\n";
-	}
+         $tmpSQL .= $1."\n";
+    }
         else {
-		$tmpSQL .= $_."\n"
-	}
+        $tmpSQL .= $_."\n"
+    }
     }
    
-    return $tmpSQL;	
+    return $tmpSQL; 
 }
