@@ -25,13 +25,16 @@ open( my $fh1,"<", "$filePath") or die "cant open the file $sqlFileName: $!";
 while(<$fh1>) {
 
     my $query =  $_;
+
     print "QUERY : $query\n";
     $query = satantize_query($query);
     print "AFTER SANITIZATION : $query\n";
-    
-    #my $sh    = $dbh->prepare($query);
-    #$sh->execute();
-    #$sh->finish(); 
+
+    next if  ($query eq "");
+
+    my $sh    = $dbh->prepare($query);
+    $sh->execute();
+    $sh->finish();
 }
 close $fh1;
 
@@ -45,7 +48,8 @@ sub satantize_query {
     my ($query) = @_;
     my $tmpSQL  = ""; 
     foreach (split(/\n/,$query)) {
-	if ($_=~/^--/) {
+        chomp;
+	if ($_=~/^--/ || $_ eq "") {
 		next;
 	}
         elsif ($_=~/(.+)--.+/) {
