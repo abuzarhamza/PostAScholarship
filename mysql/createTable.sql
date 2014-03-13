@@ -25,7 +25,7 @@ create table if not exists privalege (
     id int not null auto increment primary key,
     name varchar(30),
     description text,
-);
+)database=MyISAM;
 
 create table if not exists user_privalege_rel (
     id int not null auto increment primary key,
@@ -33,7 +33,7 @@ create table if not exists user_privalege_rel (
     user_id int,
     foreign key privalege_id references privalege(id),
     foreign key user_id references user_profile(id)
-);
+)database=MyISAM;
 
 
 create table if not exists badge (
@@ -44,7 +44,7 @@ create table if not exists badge (
     unique tinyint , -- unique badge can be earn once
     secret tinyint , -- are not listed
     count int default 0 -- total number of times awarded
-);
+)database=MyISAM;
 
 
 create table if not exists user_badge_rel (
@@ -79,7 +79,7 @@ create table if not exists tag (
     tag_count int default 0,
     alias tinyint default 0, -- 0 or 1
     main tinyint default 0 ,-- 0 or 1
-    tag_enable tinyint default 0 ,-- user suggested tag to be ebabled.
+    tag_enable tinyint default 0 -- user suggested tag to be ebabled.
 );
 
 create table if not exists tag_alias (
