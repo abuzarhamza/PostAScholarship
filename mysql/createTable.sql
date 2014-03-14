@@ -25,7 +25,7 @@ create table if not exists privalege (
     id int not null auto_increment primary key,
     name varchar(30),
     description text,
-) engine=myisam;
+) engine=innodb;
 
 create table if not exists user_privalege_rel (
     id int not null auto_increment primary key,
@@ -44,7 +44,7 @@ create table if not exists badge (
     unique tinyint , -- unique badge can be earn once
     secret tinyint , -- are not listed
     count int default 0 -- total number of times awarded
-) engine= myisam;
+) engine= innodb;
 
 
 create table if not exists user_badge_rel (
@@ -54,7 +54,7 @@ create table if not exists user_badge_rel (
     date datetime,
     foreign key badge_id references badge(id),
     foreign key user_id references user_profile(id)
-) engine=myisam;
+) engine=innodb;
 
 
 create table if not exists notes (
@@ -81,7 +81,7 @@ create table if not exists tag (
     parent tinyint default 1,-- 0 or 1
     child tinyint default 0,
     tag_enable tinyint default 0 -- user suggested tag to be ebabled.
-);
+) engine=innodb;
 
 create table if not exists tag_alias (
     id int not null auto_increment primary key,
@@ -89,7 +89,7 @@ create table if not exists tag_alias (
     alias_id2 int  not null,
     foreign key (alias_id1) references tag(id),
     foreign key (alias_id2) references tag(id)
-);
+) engine=innodb;
 
 
 create table if not exists tag_post_rel (
@@ -99,7 +99,7 @@ create table if not exists tag_post_rel (
     date datetime,
     foreign key (tag_id) references tag(id),
     foreign key (post_id) references post(id)
-);
+) engine=innodb;
 
 
 create table if not exists follow_tag (
@@ -107,7 +107,7 @@ create table if not exists follow_tag (
      regex text, -- trigger need to be used for sending email to end user. 
      user_id int ,
      foreign key (user_id) refernce user_profile(id)
-);
+) engine=innodb;
 
 
 create table if not exists post (
@@ -134,7 +134,7 @@ create table if not exists post (
     accepted_answer tinyint , -- weather answer was accepted
     url varchar(255), -- used for post with linkouts
     sticky int not null default 0 -- stickiness of the post
-);
+) engine=innodb;
 
 create table if not exists post_view (
     ip varchar(50),
@@ -142,7 +142,7 @@ create table if not exists post_view (
     datetime datetime.
     foreign key (post_id) references post(id),
     primary key (ip,post_id)
-);
+) engine=innodb;
 
 create table if not exists related_post (
     id int not null auto_increment primary key,
@@ -150,7 +150,7 @@ create table if not exists related_post (
     target_id int,
     foreign key post_id references post(id),
     foreign key target_id references post(id),
-);
+) engine=innodb;
 
 create table if not exists post_revision (
     id int not null auto_increment primary key,
@@ -161,7 +161,7 @@ create table if not exists post_revision (
     datetime datetime,
     foreign key post_id references post(id),
     foreign key author_id references user_profile(id),  
-);
+) engine=innodb;
 
 create table if not exists vote (
     id int not null auto_increment primary key,
@@ -171,7 +171,7 @@ create table if not exists vote (
     author_id int ,
     foreign key post_id references post(id),
     foreign key author_id references user_profile(id)
-);
+) engine=innodb;
 
 
 create table if not exists flag (
@@ -182,7 +182,7 @@ create table if not exists flag (
     context text default null,
     foreign key post_id references post(id),
     foreign key author_id references user_profile(id) 
-);
+) engine=innodb;
 
 
 create table if not exists flag_status (
@@ -192,4 +192,4 @@ create table if not exists flag_status (
     approved tinyint not null default 0,
     foreign key post_id references post(id),
     foreign key moderator_id references user_profile(id)  
-);
+) engine=innodb;
