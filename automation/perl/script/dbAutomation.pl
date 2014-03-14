@@ -8,7 +8,7 @@ use Data::Dumper;
 use lib '../modules';
 use SQL::Sanity qw(clearComment);
 
-require '../../config/perl/filePathConf.pl';
+require '../../config/perl/filePath.pl';
 
 #use SQL::General (readSQLFile);
 
