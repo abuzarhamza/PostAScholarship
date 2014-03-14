@@ -24,15 +24,15 @@ create table if not exists user_profile (
 create table if not exists privalege (
     id int not null auto_increment primary key,
     name varchar(30),
-    description text,
+    description text
 ) engine=innodb;
 
 create table if not exists user_privalege_rel (
     id int not null auto_increment primary key,
     privalege_id int,
     user_id int,
-    foreign key privalege_id references privalege(id),
-    foreign key user_id references user_profile(id)
+    foreign key (privalege_id) references privalege(id),
+    foreign key (user_id) references user_profile(id)
 ) engine=innodb;
 
 
@@ -41,8 +41,8 @@ create table if not exists badge (
     name varchar(50),
     description varchar(250),
     type varchar(30), -- gold silver bronze iron
-    unique tinyint , -- unique badge can be earn once
-    secret tinyint , -- are not listed
+    unique_badge tinyint default 0, -- unique badge can be earn once
+    secret tinyint default 0, -- are not listed
     count int default 0 -- total number of times awarded
 ) engine= innodb;
 
@@ -52,8 +52,8 @@ create table if not exists user_badge_rel (
     badge_id int not null,
     user_id int not null,
     date datetime,
-    foreign key badge_id references badge(id),
-    foreign key user_id references user_profile(id)
+    foreign key (badge_id) references badge(id),
+    foreign key (user_id) references user_profile(id)
 ) engine=innodb;
 
 
@@ -91,28 +91,16 @@ create table if not exists tag_alias (
     foreign key (alias_id2) references tag(id)
 ) engine=innodb;
 
-
-create table if not exists tag_post_rel (
-    id int not null auto_increment primary key,
-    tag_id int not null,
-    post_id not null,
-    date datetime,
-    foreign key (tag_id) references tag(id),
-    foreign key (post_id) references post(id)
-) engine=innodb;
-
-
 create table if not exists follow_tag (
      id int not null auto_increment primary key,
      regex text, -- trigger need to be used for sending email to end user. 
-     user_id int ,
-     foreign key (user_id) refernce user_profile(id)
+     user_id int not null,
+     foreign key (user_id) references user_profile(id)
 ) engine=innodb;
-
 
 create table if not exists post (
     id int auto_increment not null primary key,
-    author_id int not null foreign key (author_id) references user_profile(id),
+    author_id int not null,
     title varchar(250),
     content text, --mark down content
     html text, --sanitize html content for display
@@ -123,33 +111,44 @@ create table if not exists post (
     flag tinyint default 0, -- if he post is marked for spamming etc
     creation_date datetime,
     lastedit_date datetime,
-    lastedit_user_id int  foreign key (lastedit_user_id) references user_profile(id),
+    lastedit_user_id int,
     changed tinyint ,-- keep track of which post has changed
     post_type varchar(50),
-    root tinyint not null default 1, --this will maintain the ancestor/descendant relationship between posts
+    root int not null default 1, --this will maintain the ancestor/descendant relationship between posts
     parent int unique key references post(id),  --maintain parent child relation ship
     context text , -- use to display the context the post was created/edited 
     answer_count int not null default 0,
     book_count int not null default 0,
     accepted_answer tinyint , -- weather answer was accepted
     url varchar(255), -- used for post with linkouts
-    sticky int not null default 0 -- stickiness of the post
+    sticky int not null default 0, -- stickiness of the post
+    foreign key (author_id) references user_profile(id),
+    foreign key (lastedit_user_id) references user_profile(id)
+) engine=innodb;
+
+create table if not exists tag_post_rel (
+    id int not null auto_increment primary key,
+    tag_id int not null,
+    post_id int not null,
+    date datetime,
+    foreign key (tag_id) references tag(id),
+    foreign key (post_id) references post(id)
 ) engine=innodb;
 
 create table if not exists post_view (
     ip varchar(50),
     post_id int,
-    datetime datetime.
+    datetime datetime,
     foreign key (post_id) references post(id),
-    primary key (ip,post_id)
+    constraint ip_post_id primary key (ip,post_id)
 ) engine=innodb;
 
 create table if not exists related_post (
     id int not null auto_increment primary key,
     post_id int ,
     target_id int,
-    foreign key post_id references post(id),
-    foreign key target_id references post(id),
+    foreign key (post_id) references post(id),
+    foreign key (target_id) references post(id)
 ) engine=innodb;
 
 create table if not exists post_revision (
@@ -159,8 +158,8 @@ create table if not exists post_revision (
     context text,
     author_id int ,
     datetime datetime,
-    foreign key post_id references post(id),
-    foreign key author_id references user_profile(id),  
+    foreign key (post_id) references post(id),
+    foreign key (author_id) references user_profile(id)  
 ) engine=innodb;
 
 create table if not exists vote (
@@ -169,8 +168,8 @@ create table if not exists vote (
     type varchar(30),--type VOTE_UP|VOTE_DOWN|VOTE_ACCEPT|VOTE_BOOKMARK|VOTE_FLAG 
     datetime datetime,
     author_id int ,
-    foreign key post_id references post(id),
-    foreign key author_id references user_profile(id)
+    foreign key (post_id) references post(id),
+    foreign key (author_id) references user_profile(id)
 ) engine=innodb;
 
 
@@ -180,8 +179,8 @@ create table if not exists flag (
     datetime datetime,
     author_id int ,
     context text default null,
-    foreign key post_id references post(id),
-    foreign key author_id references user_profile(id) 
+    foreign key (post_id) references post(id),
+    foreign key (author_id) references user_profile(id) 
 ) engine=innodb;
 
 
@@ -190,6 +189,6 @@ create table if not exists flag_status (
     post_id int , 
     moderator_id int ,
     approved tinyint not null default 0,
-    foreign key post_id references post(id),
-    foreign key moderator_id references user_profile(id)  
+    foreign key (post_id) references post(id),
+    foreign key (moderator_id) references user_profile(id)  
 ) engine=innodb;
