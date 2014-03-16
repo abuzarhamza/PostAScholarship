@@ -92,6 +92,34 @@ sub CreateTable {
 }
 
 =head1
+function    : insertPrivilage
+description : 
+in          : ref_hash
+out         : none
+=cut
+
+sub insertPrivilage {
+    my ($ref_hash) = @_;
+    %Config = %$ref_hash;
+
+    local $/ = ";";
+
+    my $baseDir  = $Config{'SQL_DIRPATH'};
+    my $filePath = $baseDir . $Config{'SQL_INSERT_PRIVILAGE'};
+
+    open(my $fh , "")  or die "cant open the file ";
+    while (<$fh>) {
+        chomp;
+        my $query = clearComment($_); 
+            
+    }
+    close $fh;
+
+}
+
+
+
+=head1
 function    : CreateTable
 description : create the table.
 in          : ref_hash
