@@ -23,21 +23,22 @@ create table if not exists user_profile (
 
 create table if not exists privilege (
     id int not null auto_increment primary key,
-    name varchar(30),
+    score int not null,
+    small_des varchar(250),
     description text
 ) engine=innodb;
 
 create table if not exists user_privilege_rel (
     id int not null auto_increment primary key,
-    privilege_id int,
-    user_id int,
+    privilege_id int not null,
+    user_id int not null,
     foreign key (privilege_id) references privilege(id),
     foreign key (user_id) references user_profile(id)
 ) engine=innodb;
 
 create table if not exists badge (
     id int not null auto_increment primary key,
-    name varchar(50),
+    name varchar(50) not null,
     description varchar(250),
     type varchar(30), -- gold silver bronze iron
     unique_badge tinyint default 0, -- unique badge can be earn once
