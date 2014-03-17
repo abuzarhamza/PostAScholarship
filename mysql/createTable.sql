@@ -21,20 +21,19 @@ create table if not exists user_profile (
 ) engine =innodb;
 
 
-create table if not exists privalege (
+create table if not exists privilege (
     id int not null auto_increment primary key,
     name varchar(30),
     description text
 ) engine=innodb;
 
-create table if not exists user_privalege_rel (
+create table if not exists user_privilege_rel (
     id int not null auto_increment primary key,
-    privalege_id int,
+    privilege_id int,
     user_id int,
-    foreign key (privalege_id) references privalege(id),
+    foreign key (privilege_id) references privilege(id),
     foreign key (user_id) references user_profile(id)
 ) engine=innodb;
-
 
 create table if not exists badge (
     id int not null auto_increment primary key,
