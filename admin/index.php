@@ -14,12 +14,23 @@
 </head>
 
 <body>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+            <td><?php include("_top.php");?> </td>
+        </tr>
 
-    <?php if( CheckAdminLogedIn() ) { include("_panel.php"); }
-          else { include("_login.php"); }
-    ?>
+        <tr>
+            <td align="centre">
+                <?php if( CheckAdminLogedIn() ) { include("_panel.php"); }
+                      else { include("_login.php"); }
+                ?>
+            </td>
+        </tr>
 
-    <? include("_footer.php");?>
+        <tr>
+            <td><? include("_footer.php");?></td>
+        </tr>
+    </table>
 </body>
 </html>
 
