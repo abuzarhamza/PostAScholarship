@@ -10,27 +10,24 @@
 <head>
 <meta charset="utf-8" />
 <title><? echo SITE_URL_TITLE; ?> - Administrator</title>
-<? include "_assets.php";?>
+<?php include "_assets.php";?>
 </head>
 
 <body>
-    <table width="100%" border="0" cellpadding="0" cellspacing="0">
-        <tr>
-            <td><?php include("_top.php");?> </td>
-        </tr>
 
-        <tr>
-            <td align="centre">
-                <?php if( CheckAdminLogedIn() ) { include("_panel.php"); }
-                      else { include("_login.php"); }
-                ?>
-            </td>
-        </tr>
+    <?php include("_top.php");?>
 
-        <tr>
-            <td><? include("_footer.php");?></td>
-        </tr>
-    </table>
+    <?php
+        if( CheckAdminLogedIn() ) { 
+            include("_panel.php"); 
+        }
+        else { 
+            include("_login.php"); 
+      }
+    ?>
+
+    <? include("_footer.php");?></td>
+        
 </body>
 </html>
 
