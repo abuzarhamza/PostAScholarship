@@ -1,8 +1,11 @@
-create table if not exists admin (
-    id int not null auto
-);
---id  username    password    group_id    full_name   last_login  status  date_added
-
+create table if not exists admin_mst (
+    id int not null auto_increment primary key,
+    username varchar(30) not null,
+    password varchar(250) not null,
+    group_id  int default 0,
+    last_login datetime,
+    status tinyint default 0 -- user login staus 
+)  engine =innodb;
 
 create table if not exists user_profile (
     id int not null auto_increment primary key,
