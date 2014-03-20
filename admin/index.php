@@ -18,16 +18,16 @@
     <?php include("_top.php");?>
 
     <?php
-        if( CheckAdminLogedIn() ) { 
-            include("_panel.php"); 
+        if( CheckAdminLogedIn() ) {
+            include("_panel.php");
         }
         else { 
-            include("_login.php"); 
+            include("_login.php");
       }
     ?>
 
     <? include("_footer.php");?></td>
-        
+
 </body>
 </html>
 
