@@ -1,3 +1,9 @@
+create table if not exists admin (
+    id int not null auto
+);
+--id  username    password    group_id    full_name   last_login  status  date_added
+
+
 create table if not exists user_profile (
     id int not null auto_increment primary key,
     user_name varchar(30),
