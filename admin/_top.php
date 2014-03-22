@@ -20,9 +20,9 @@
               <li><a href="profile_manager.php">Profile</a></li>
               <li><a href="help.php">Help</a></li>
             </ul>
-            <form class="navbar-form navbar-right">
+            <form class="navbar-form navbar-right" role="form" method="post" action="./admin_login.php?action=logout" name ="adminlogin" id="adminlogin">
               <input type="text" class="form-control" placeholder="Search...">
-              <button type="submit" class="btn btn-primary" action="./admin_login.php?action=logout">Log out</button>
+              <button type="submit" class="btn btn-primary" >Log out</button>
             </form>
         </div>
     </div>
