@@ -10,7 +10,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.php">PostAScholarship</a>
+        <a class="navbar-brand" href="index.php">PostAScholarship Admin Panel</a>
       </div>
       
   		 <div class="navbar-collapse collapse">
@@ -22,7 +22,7 @@
             </ul>
             <form class="navbar-form navbar-right">
               <input type="text" class="form-control" placeholder="Search...">
-              <button type="submit" class="btn btn-primary">Log out</button>
+              <button type="submit" class="btn btn-primary" action="./admin_login.php?action=logout">Log out</button>
             </form>
         </div>
     </div>

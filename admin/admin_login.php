@@ -1,6 +1,7 @@
 <?php
 ob_start();
 session_start();
+header("Cache-control: private");
 
 require_once("./includes/config.php"); //include configuration file
 require_once("./includes/functions.php"); //include file containing all functions
@@ -28,7 +29,7 @@ if  ( array_key_exists('action', $_GET) ) {
 
             $sql     = " SELECT * FROM admin_mst
                           WHERE username = '$adminUser' 
-                            AND password = '$encryptedPwd'
+                            AND password = '$password'
                             AND status='1'
                        ";
 
@@ -37,7 +38,7 @@ if  ( array_key_exists('action', $_GET) ) {
             $numRows = mysql_num_rows($result);
 
             if ( $numRows != 0 ) {
-
+                //session data is being set
                 $_SESSION['s_admin_logged_in'] = true;
                 $_SESSION['s_admin_username']  = $username;
                 $_SESSION['s_admin_type']      = $arrres['group_id'];
@@ -54,39 +55,80 @@ if  ( array_key_exists('action', $_GET) ) {
         }
 
     }
-    elseif ( $action == "change_password" ) {
+    elseif($action=="logout") {
+        $sql = "UPDATE admin_mst 
+                   SET last_login='".TimestampToMySQLdatetime()."' 
+                 WHERE username='$_SESSION[s_admin_username]'";
 
-        $username        = $_SESSION['s_admin_username'];
-        
-        $oldPassword     = clean($_POST['old_password']);
-        $newPassword     = clean($_POST['new_password']);
-        $cofirmPassword  = clean($_POST['confirm_password']);
-        
-        $sql="SELECT * FROM admin_mst WHERE username='$username' AND password='$old_password'";
         $result=mysql_query($sql) or die(mysql_error());
-        $num_rows=mysql_num_rows($result);
         
-        if($num_rows!=0)
-        {
-            $sql="UPDATE admin_mst SET password='$new_password' WHERE username='$username'";
-            $result=mysql_query($sql) or die(mysql_error());
-            $_SESSION['s_admin_logged_in'] = false;
-            $_SESSION['s_admin_username'] = "";
-            $_SESSION['s_admin_type'] = "";
-            session_destroy();
+        $_SESSION['s_admin_logged_in'] = false;
+        $_SESSION['s_admin_username']  = "";
+        $_SESSION['s_admin_type']      = "";
+
+        session_destroy();
         
-            header("Location: index.php?res=change_password_success");
-        }
-        else
-        {
-            header("Location: change_admin_password.php?res=invalid_old_password");
-        }
+        header("Location: index.php?res=logout_success");
         exit;
     }
+    elseif ( $action == "change_password" ) {
+
+        if ( array_key_exists('s_admin_username', $_SESSION) &&
+             array_key_exists('old_password',$_POST) &&
+             array_key_exists('new_password',$_POST) &&
+             array_key_exists('confirm_password',$_POST) 
+
+        ) {
+            $username        = $_SESSION['s_admin_username'];
+            $oldPassword     = clean($_POST['old_password']);
+            $newPassword     = clean($_POST['new_password']);
+            $cofirmPassword  = clean($_POST['confirm_password']);
+
+            $encryptedOldPwd = md5($oldPassword);
+            $encryptedNewPwd = md5($newPassword);
+
+            if ( $newPassword != $cofirmPassword ) {
+                header("Location: change_admin_password.php?res=old_new_mismatch");
+                exit;
+            }
+
+            $sql="SELECT * FROM admin_mst 
+                   WHERE username ='$username' 
+                     AND password ='$oldPassword'";
+            
+            $result   = mysql_query($sql) or die(mysql_error());
+            $num_rows = mysql_num_rows($result);
+
+            if($num_rows!=0) {
+                $sql="UPDATE admin_mst SET password='$oldPassword' 
+                       WHERE username='$newPassword'";
+                $result=mysql_query($sql) or die(mysql_error());
+
+                //session variable unset
+                $_SESSION['s_admin_logged_in'] = false;
+                $_SESSION['s_admin_username']  = "";
+                $_SESSION['s_admin_type']      = "";
+                session_destroy();
+            
+                header("Location: index.php?res=change_password_success");
+            } 
+            else {
+                header("Location: change_admin_password.php?res=invalid_old_password");
+            }
+            exit;
+
+        }
+        else {
+            header("Location: index.php?res=");
+            exit;
+        }
+    }
     elseif( $action=="save_settings" ) {
-        foreach($_POST as $setting_name=>$setting_value){
+
+        foreach( $_POST as $setting_name => $setting_value) {
+
             if($setting_name!='Submit') {
-                $setting_name=@clean($setting_name);
+                $setting_name =@clean($setting_name);
                 $setting_value=@clean($setting_value);
                 
                 $sql="UPDATE cms_settings_mst SET setting_value='$setting_value' WHERE setting_name='$setting_name'";
@@ -98,6 +140,9 @@ if  ( array_key_exists('action', $_GET) ) {
         exit;
     }   
 }
-
+?>
+<?php
+ob_end_flush();
+?>
 
 
