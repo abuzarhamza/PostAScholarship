@@ -15,12 +15,12 @@
       
   		 <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="dashboard_manager.php">Dashboard</a></li>
-              <li><a href="setting_manager.php">Settings</a></li>
-              <li><a href="profile_manager.php">Profile</a></li>
-              <li><a href="help.php">Help</a></li>
+              <li><a href="./dashboard_manager.php">Dashboard</a></li>
+              <li><a href="./setting_manager.php">Settings</a></li>
+              <li><a href="./profile_manager.php">Profile</a></li>
+              <li><a href="./help.php">Help</a></li>
             </ul>
-            <form class="navbar-form navbar-right" role="form" method="post" action="./admin_login.php?action=logout" name ="adminlogin" id="adminlogin">
+            <form class="navbar-form navbar-right" role="form" method="post" action="./admin_login.php?action=logout" name ="adminlogout" id="adminlogout">
               <input type="text" class="form-control" placeholder="Search...">
               <button type="submit" class="btn btn-primary" >Log out</button>
             </form>
@@ -29,6 +29,3 @@
   </div>
 
 <?php } ?>
-
-
-
