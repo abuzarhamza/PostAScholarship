@@ -15,17 +15,31 @@
       
   		 <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="./dashboard_manager.php">Dashboard</a></li>
-              <li><a href="./setting_manager.php">Settings</a></li>
-              <li><a href="./profile_manager.php">Profile</a></li>
-              <li><a href="./help.php">Help</a></li>
+              <li><a href="./dashboard_manager.php"><span class="glyphicon glyphicon-book"></span> Dashboard </a></li>
+              <li><a href="./setting_manager.php"><span class="glyphicon glyphicon-wrench"></span> Settings </a></li>
+              <li><a href="./profile_manager.php"><span class="glyphicon glyphicon-user"></span> Profile </a></li>
             </ul>
             <form class="navbar-form navbar-right" role="form" method="post" action="./admin_login.php?action=logout" name ="adminlogout" id="adminlogout">
-              <input type="text" class="form-control" placeholder="Search...">
               <button type="submit" class="btn btn-primary" >Log out</button>
             </form>
         </div>
     </div>
   </div>
 
+  <h1>Dashboard</h1>
+   <button type="button" class="btn btn-default btn-lg">
+      <span class="glyphicon glyphicon-file"> Manage Post</span>
+   </button>
+   <button type="button" class="btn btn-default btn-lg">
+      <span class="glyphicon glyphicon-tags"> Manage Tags</span>
+   </button>
+   <button type="button" class="btn btn-default btn-lg">
+      <span class="glyphicon glyphicon-star-empty"> Manage Badge</span>
+   </button>
+    <button type="button" class="btn btn-default btn-lg">
+      <span class="glyphicon glyphicon-pushpin"> Manage SocialBookmarks</span>
+   </button>
+       <button type="button" class="btn btn-default btn-lg">
+      <span class="glyphicon glyphicon-user"> Manage User</span>
+   </button>
 <?php } ?>
