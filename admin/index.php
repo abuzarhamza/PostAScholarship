@@ -14,20 +14,23 @@
 </head>
 
 <body>
-    
-    <?php include("_top.php");?>
+    <div class="container">
+        <?php include("_top.php");?>
 
-    <?php
-        if( CheckAdminLogedIn() ) {
-            include("_panel.php");
-        }
-        else { 
-            include("_login.php");
-      }
-    ?>
+        <?php
+            if( CheckAdminLogedIn() ) {
+                include("_panel.php");
+            }
+            else {
+                include("_login.php");
+          }
+        ?>
 
-    <? include("_footer.php");?></td>
+        <? include("_footer.php");?>
+        <? include ("_assets_javascript.php"); ?>
+            <div class="container-fluid">
 
+        </div>
 </body>
 </html>
 
