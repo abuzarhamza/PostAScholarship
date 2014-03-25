@@ -30,7 +30,7 @@
         <? include ("_assets_javascript.php"); ?>
             <div class="container-fluid">
 
-        </div>
+    </div>
 </body>
 </html>
 
