@@ -17,9 +17,9 @@
       
   		 <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-              <li><a href="./index.php"><span class="glyphicon glyphicon-book"></span> Dashboard </a></li>
-              <li><a href="./index.php?dashboard=settings"><span class="glyphicon glyphicon-wrench"></span> Settings </a></li>
-              <li><a href="./index.php?dashboard=profile"><span class="glyphicon glyphicon-user"></span> Profile </a></li>
+              <li><a href="./index.php?page=dashboard"><span class="glyphicon glyphicon-book"></span> Dashboard </a></li>
+              <li><a href="./index.php?page=settings"><span class="glyphicon glyphicon-wrench"></span> Settings </a></li>
+              <li><a href="./index.php?page=profile"><span class="glyphicon glyphicon-user"></span> Profile </a></li>
             </ul>
             <form class="navbar-form navbar-right" role="form" method="post" action="./admin_login.php?action=logout" name ="adminlogout" id="adminlogout">
               <button type="submit" class="btn btn-primary" >Log out</button>
@@ -28,52 +28,53 @@
     </div>
   </div>
 
-  <?php if (array_key_exists('dashboard', $_GET)) {
-          $dashboard = $_GET['dashboard'];
-          if ( $dashboard == "settings" ) { ?>
+<?php if (array_key_exists('page', $_GET)) {
+      $page = $_GET['page'];
+      if ( $page == "settings" ) {
+?>
 
-           <h1>Settings</h1>
-           <button type="button" class="btn btn-default btn-lg">
+            <h1>Settings</h1>
+            <button type="button" class="btn btn-default btn-lg">
               <span class="glyphicon glyphicon-file"> Manage admin detail</span>
-           </button>
-           <br/><br/>
-           <button type="button" class="btn btn-default btn-lg">
-              <span class="fa fa-key"> Change Password</span>
-           </button>
+            </button>
+            <br/><br/>
+            <a href="./change_admin_password.php">
+             <button type="button" class="btn btn-default btn-lg">
+                  <span class="fa fa-key"> Change Password</span>
+             </button>
+            </a>
 
-
-          <?  } elseif ( $dashboard == "profile" ) {?>
+<?  } elseif ( $page == "profile" ) { ?>
                 <h1>Profile</h1>
                <button type="button" class="btn btn-default btn-lg">
                   <span class="glyphicon glyphicon-user"> Update user profile</span>
                </button>
-            <? } ?>
-  <? } else { ?>
+<? } elseif ( $page == "dashboard" ) { ?>
 
-    <h1>Dashboard</h1>
-     <button type="button" class="btn btn-default btn-lg">
-        <span class="glyphicon glyphicon-file"> Manage Post</span>
-     </button>
-     <br/><br/>
-     <button type="button" class="btn btn-default btn-lg">
-        <span class="glyphicon glyphicon-tags"> Manage Tags</span>
-     </button>
-     <br/><br/>
-     <button type="button" class="btn btn-default btn-lg">
-        <span class="glyphicon glyphicon-star-empty"> Manage Badge</span>
-     </button>
-     <br/><br/>
-      <button type="button" class="btn btn-default btn-lg">
-        <span class="glyphicon glyphicon-pushpin"> Manage SocialBookmarks</span>
-     </button>
-     <br/><br/>
-      <button type="button" class="btn btn-default btn-lg">
-        <span class="fa fa-users"> Manage User</span>
-      </button>
-      <br/><br/>
-      <button type="button" class="btn btn-default btn-lg">
-        <span class="fa fa-lock"> Manage admin </span> 
-      </button>
- 
-  <? } ?>
-<?php } ?>
+                <h1>Dashboard</h1>
+                 <button type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-file"> Manage Post</span>
+                 </button>
+                 <br/><br/>
+                 <button type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-tags"> Manage Tags</span>
+                 </button>
+                 <br/><br/>
+                 <button type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-star-empty"> Manage Badge</span>
+                 </button>
+                 <br/><br/>
+                  <button type="button" class="btn btn-default btn-lg">
+                    <span class="glyphicon glyphicon-pushpin"> Manage SocialBookmarks</span>
+                 </button>
+                 <br/><br/>
+                  <button type="button" class="btn btn-default btn-lg">
+                    <span class="fa fa-users"> Manage User</span>
+                  </button>
+                  <br/><br/>
+                  <button type="button" class="btn btn-default btn-lg">
+                    <span class="fa fa-lock"> Manage admin </span>
+                  </button>
+  <?php }
+    }
+} ?>
