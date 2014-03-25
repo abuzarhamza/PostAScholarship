@@ -32,32 +32,32 @@
                 </ol>
             </div>
         </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
+                <div id="validation_msg" class="hide"></div>
+            </div>
+        </div>
 
         <form class="form-horizontal" role="form" action="./admin.php?" method="post">
-            <div class="form-group">
+            <div class="form-group has-success has-feedback">
                 <label for="inputPassword3" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> Old Password</label>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                   <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
                 </div>
             </div>
-        </form>
-    
-
-        <form action="./admin.php?" method="post" accept-charset="UTF-8" class="form-horizontal">
-            <div class="input-group">
-                <span class="input-group-addon">old password</span>
-                <input type="password" class="form-control" placeholder="password" name="old_password" id="old_password">
+            <div class="form-group has-success has-feedback">
+                <label for="inputPassword3" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> New Password</label>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                  <input type="password" class="form-control" id="inputPassword3" placeholder="New Password">
+                </div>
             </div>
-            <div class="input-group">
-                <span class="input-group-addon">new password</span>
-                <input type="password" class="form-control" placeholder="password" name="new_password" id="new_password">
-            </div>
-            <div class="input-group">
-                <span class="input-group-addon">confirm password</span>
-                <input type="password" class="form-control" placeholder="password" name="confirm_password" id="confirm_password">
+            <div class="form-group has-success has-feedback">
+                <label for="inputPassword3" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> Confirm Password</label>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                  <input type="password" class="form-control" id="inputPassword3" placeholder="Confirm Password">
+                </div>
             </div>
         </form>
-
 
 <?php
     include("_footer.php");
