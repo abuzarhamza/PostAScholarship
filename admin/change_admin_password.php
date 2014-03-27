@@ -57,6 +57,12 @@
                   <input type="password" class="form-control" id="inputPassword3" placeholder="Confirm Password">
                 </div>
             </div>
+
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-md-offset-3 col-lg-offset-3">
+                  <button type="submit" class="btn btn-default">Change Password</button>
+                </div>
+            </div>
         </form>
 
 <?php
