@@ -40,7 +40,7 @@ if  ( array_key_exists('action', $_GET) ) {
             if ( $numRows != 0 ) {
                 //session data is being set
                 $_SESSION['s_admin_logged_in'] = true;
-                $_SESSION['s_admin_username']  = $username;
+                $_SESSION['s_admin_username']  = $adminUser;
                 $_SESSION['s_admin_type']      = $arrres['group_id'];
                 header("Location: index.php?res=login_success");
 
@@ -80,9 +80,13 @@ if  ( array_key_exists('action', $_GET) ) {
 
         ) {
             $username        = $_SESSION['s_admin_username'];
-            $oldPassword     = clean($_POST['old_password']);
-            $newPassword     = clean($_POST['new_password']);
-            $cofirmPassword  = clean($_POST['confirm_password']);
+            // $oldPassword     = clean($_POST['old_password']);
+            // $newPassword     = clean($_POST['new_password']);
+            // $cofirmPassword  = clean($_POST['confirm_password']);
+
+            $oldPassword     = trim($_POST['old_password']);
+            $newPassword     = trim($_POST['new_password']);
+            $cofirmPassword  = trim($_POST['confirm_password']);
 
             $encryptedOldPwd = md5($oldPassword);
             $encryptedNewPwd = md5($newPassword);
@@ -100,8 +104,8 @@ if  ( array_key_exists('action', $_GET) ) {
             $num_rows = mysql_num_rows($result);
 
             if($num_rows!=0) {
-                $sql="UPDATE admin_mst SET password='$oldPassword' 
-                       WHERE username='$newPassword'";
+                $sql="UPDATE admin_mst SET password='$newPassword'
+                       WHERE username='$username'";
                 $result=mysql_query($sql) or die(mysql_error());
 
                 //session variable unset
