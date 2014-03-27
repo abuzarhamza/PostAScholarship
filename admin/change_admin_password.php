@@ -38,23 +38,23 @@
             </div>
         </div>
 
-        <form class="form-horizontal" role="form" action="./admin.php?" method="post">
+        <form class="form-horizontal" role="form" action="./admin_login.php?action=change_password" method="post">
             <div class="form-group has-success has-feedback">
                 <label for="inputPassword3" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> Old Password</label>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                  <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                  <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Password">
                 </div>
             </div>
             <div class="form-group has-success has-feedback">
                 <label for="inputPassword3" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> New Password</label>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                  <input type="password" class="form-control" id="inputPassword3" placeholder="New Password">
+                  <input type="password" class="form-control" id="new_password" name="new_password" placeholder="New Password">
                 </div>
             </div>
             <div class="form-group has-success has-feedback">
                 <label for="inputPassword3" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> Confirm Password</label>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                  <input type="password" class="form-control" id="inputPassword3" placeholder="Confirm Password">
+                  <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
                 </div>
             </div>
 
