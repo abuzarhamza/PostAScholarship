@@ -13,7 +13,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.php">PostAScholarship Admin Panel</a>
+            <a class="navbar-brand" href="index.php?page=home">PostAScholarship Admin Panel</a>
           </div>
 
            <div class="navbar-collapse collapse">
@@ -46,7 +46,7 @@
             <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
                   <ol class="breadcrumb">
-                    <li><a href="./index.php">Home</a></li>
+                    <li><a href="./index.php?page=home">Home</a></li>
                     <li class="active">Settings</li>
                   </ol>
               </div>
@@ -94,8 +94,7 @@
                   <button type="button" class="btn btn-default btn-lg">
                     <span class="fa fa-lock"> Manage admin </span>
                   </button>
-  <?php }
-    } else { ?>
+  <?php } elseif ( $page == "home" )  { ?>
       <div class="jumbotron">
         <h1>Hello, Admin!</h1>
         <p>Check navigation button on the right top corner.To learn about the navigation panel
@@ -104,4 +103,5 @@
         <p><a class="btn btn-primary btn-lg" role="button">Learn more</a></p>
       </div>
 <?php }
+  }
 } ?>
