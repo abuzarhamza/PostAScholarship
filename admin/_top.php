@@ -55,7 +55,7 @@
             <div class="row">
               <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-md-offset-1 col-lg-offset-1">
                 <div class="span2">
-                  <p><a href=""><button href="#" class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-file"> </span> Manage admin detail</button></p>
+                  <p><a href="./manage_admin_details.php"><button class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-file"> </span> Manage admin detail</button></p>
                   <p><a href="./change_admin_password.php"><button class="btn btn-default btn-lg btn-block"><span class="fa fa-key"></span> Change Password</button></a></p>
                 </div>
               </div>
