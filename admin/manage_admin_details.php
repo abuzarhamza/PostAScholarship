@@ -11,8 +11,27 @@
 <? include "_assets.php";?>
 </head>
 
+<div="container" style="margin: 10px;">
+<?php
+    include("_top.php");
+?>
+	<div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
+                <h1>Manage Admin detail</h1>
+            </div>
+        </div>
 
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
+                <ol class="breadcrumb">
+                  <li><a href="./index.php?page=home">Home</a></li>
+                  <li><a href="./index.php?page=settings">Settings</a></li>
+                  <li class="active">Manage Admin detail</li>
+                </ol>
+            </div>
+        </div>
 
+    </div>
 <?php
     include("_footer.php");
     include ("_assets_javascript.php");
