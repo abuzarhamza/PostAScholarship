@@ -1,7 +1,7 @@
 <!-- login error message-->
 <?php if($RES=="login_error") : ?>
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md-offset-1 col-lg-offset-1">
+        <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
             <div class="alert alert-danger">
                 <a class="close" data-dismiss="alert">×</a>
                 <strong>Error!</strong> Please enter the valid Username and Password.
@@ -13,7 +13,7 @@
 
 <?php if ($RES=="logout_success") : ?>
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md-offset-1 col-lg-offset-1">
+        <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
             <div class="alert alert-success">
                 <a class="close" data-dismiss="alert">×</a>
                 <strong>Success!</strong> You have logout successfully.
@@ -25,7 +25,7 @@
 
 <? if($RES=="change_password_success") : ?>
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md-offset-1 col-lg-offset-1">
+        <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
             <div class="alert alert-info">
               <a class="close" data-dismiss="alert">×</a>
               <strong>Info!</strong> Your Password changed successfully<br>Please login again with your new Password.
@@ -36,14 +36,14 @@
 
 
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md-offset-1 col-lg-offset-1">
+    <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
         <div id="validation_msg" class="hide"></div>
     </div> <!--close col-->
 </div> <!--close row-->
 
 <!--admin login panel-->
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-md-offset-1 col-lg-offset-1">
+    <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
         <h1><i class="fa fa-laptop"></i> Admin Login Panel<h1>
     </div> <!--close col-->
 </div> <!--close row-->
