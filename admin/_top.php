@@ -67,10 +67,30 @@
 
 
 <?  } elseif ( $page == "profile" ) { ?>
-                <h1>Profile</h1>
-               <button type="button" class="btn btn-default btn-lg">
-                  <span class="glyphicon glyphicon-user"> Update user profile</span>
-               </button>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
+          <h1>Profile</h1>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
+            <ol class="breadcrumb">
+              <li><a href="./index.php?page=home">Home</a></li>
+              <li class="active">Profile</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-md-offset-1 col-lg-offset-1">
+        <div class="span2">
+          <p><a href="./profile_manager.php"><button class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-file"> </span> Update admin detail</button></p>
+        </div>
+      </div>
+    </div>
+
+
 <? } elseif ( $page == "dashboard" ) { ?>
 
                 <h1>Dashboard</h1>
