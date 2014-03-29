@@ -127,18 +127,23 @@ if  ( array_key_exists('action', $_GET) ) {
             exit;
         }
     }
-    elseif( $action=="save_settings" ) {
+    elseif( $action=="save_admin_settings" ) {
 
         $username = $_SESSION['s_admin_username'];
-        $sql="UPDATE admin_mst SET $setting_name='$setting_value'
-               WHERE username = '$username'";
-        $result=mysql_query($sql) or die(mysql_error());
+        foreach($_POST as $setting_name=>$setting_value) {
+
+            //TO DO : CONVERT IT TO STORE PRODCEDURE
+            $sql   =" UPDATE admin_mst SET $setting_name = $setting_value
+                       WHERE username = '$username'";
+            $result=mysql_query($sql);
+
+        }
 
         if ($result) {
             header("Location: manage_admin_details.php?res=edit_success");
         }
         else {
-            header("Location: manage_admin_details.php?res=edit_success");
+            header("Location: manage_admin_details.php?res=edit_error");
         }
         exit;
     }
@@ -147,5 +152,3 @@ if  ( array_key_exists('action', $_GET) ) {
 <?php
 ob_end_flush();
 ?>
-
-

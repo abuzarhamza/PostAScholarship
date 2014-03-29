@@ -53,7 +53,7 @@
     <? if ($num_rows != 0 && $username == 'admin')
     {?>
 
-        <form class="form-horizontal" role="form" action="./admin_login.php?action=save_settings" method="post">
+        <form class="form-horizontal" role="form" action="./admin_login.php?action=save_admin_settings" method="post">
             <div class="form-group">
                 <label for="inputPassword3" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> Group id</label>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
