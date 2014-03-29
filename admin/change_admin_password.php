@@ -39,22 +39,24 @@
         </div>
 
         <form class="form-horizontal" role="form" action="./admin_login.php?action=change_password" method="post">
-            <div class="form-group has-success has-feedback">
+            <div id ="old_password_form_feedback" class="form-group has-success has-feedback">
                 <label for="inputPassword3" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> Old Password</label>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                  <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Password">
+                  <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Password" onblur="validateNonEmpty(this,'old_password_form_feedback','old_password_val');">
+                  <span id="old_password_val"></span>
                 </div>
             </div>
-            <div class="form-group has-success has-feedback">
+            <div id="new_password_form_feedback" class="form-group has-success has-feedback">
                 <label for="inputPassword3" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> New Password</label>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                  <input type="password" class="form-control" id="new_password" name="new_password" placeholder="New Password">
+                  <input type="password" class="form-control" id="new_password" name="new_password" placeholder="New Password" onblur="validateNonEmpty(this,'new_password_form_feedback','new_password_val');">
+                  <span id="new_password_val"></span>
                 </div>
             </div>
             <div class="form-group has-success has-feedback">
                 <label for="inputPassword3" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> Confirm Password</label>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                  <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password">
+                  <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password"  onblur="comparePwd">
                 </div>
             </div>
 
@@ -70,4 +72,25 @@
     include ("_assets_javascript.php");
 ?>
 </div>
+<script>
+function validateNonEmpty(inputField,form_class,form_id) {
+    if (inputField.value.length == 0 ) {
+        document.getElementById(form_class).className="form-group has-error has-feedback";
+        document.getElementById(form_id).className="glyphicon glyphicon-remove form-control-feedback";
+    } else {
+        document.getElementById(form_class).className="form-group has-success has-feedback";
+        document.getElementById(form_id).className="glyphicon glyphicon-ok form-control-feedback";
+    }
+}
+
+function comparePwd(inputField) {
+    if (inputField.value.length == 0 ) {
+        //validateNonEmpty();
+    }
+    else {
+        //
+    }
+}
+
+</script>
 </body>
