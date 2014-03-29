@@ -86,10 +86,12 @@ function validateNonEmpty(inputField,form_class,form_id) {
 
 function comparePwd(inputField) {
     if (inputField.value.length == 0 ) {
-        //validateNonEmpty();
+        document.getElementById(form_class).className="form-group has-error has-feedback";
+        document.getElementById(form_id).className="glyphicon glyphicon-remove form-control-feedback";
     }
     else {
-        //
+        document.getElementById(form_class).className="form-group has-success has-feedback";
+        document.getElementById(form_id).className="glyphicon glyphicon-ok form-control-feedback";
     }
 }
 
