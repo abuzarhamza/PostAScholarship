@@ -129,20 +129,19 @@ if  ( array_key_exists('action', $_GET) ) {
     }
     elseif( $action=="save_settings" ) {
 
-        foreach( $_POST as $setting_name => $setting_value) {
+        $username = $_SESSION['s_admin_username'];
+        $sql="UPDATE admin_mst SET $setting_name='$setting_value'
+               WHERE username = '$username'";
+        $result=mysql_query($sql) or die(mysql_error());
 
-            if($setting_name!='Submit') {
-                $setting_name =@clean($setting_name);
-                $setting_value=@clean($setting_value);
-                
-                $sql="UPDATE cms_settings_mst SET setting_value='$setting_value' WHERE setting_name='$setting_name'";
-                $result=mysql_query($sql) or die(mysql_error());        
-            }
+        if ($result) {
+            header("Location: manage_admin_details.php?res=edit_success");
         }
-
-        header("Location: general_settings.php?res=success");
+        else {
+            header("Location: manage_admin_details.php?res=edit_success");
+        }
         exit;
-    }   
+    }
 }
 ?>
 <?php
