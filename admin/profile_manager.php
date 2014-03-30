@@ -33,6 +33,25 @@
     </div>
 
 <?php
+// user_name
+// display_name
+// first_name
+// last_name
+// type
+// about_me
+// web
+// gold_badge 0
+// silver_badge 0
+// bronze_badge 0
+// new_message_count 0
+// score 	0
+// rank 0
+// about_me_html
+// status
+// mytags
+
+?>
+<?php
     include("_footer.php");
     include ("_assets_javascript.php");
 ?>
