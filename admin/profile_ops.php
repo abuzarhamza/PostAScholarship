@@ -34,11 +34,12 @@ mysql_select_db(DB_DATABASE) or die("database not available");
             if ( $errorFlag != 1 ) {
                 $sql      = "CALL verify_and_update_adminprofile('$userName','$_POST[display_name]','$_POST[first_name]','$_POST[last_name]','$_POST[about_me]','$_POST[web]')";
                 $result   = mysql_query($sql);
-                //$values   = mysql_fetch_array($result);
-                //echo '<p>'.var_dump($values). '<p>';
-                if ($result != 1) {
-                    //echo "<P> $sql </p> <p>\$result : $result</p><p> \$conn : $conn<p>".mysql_error();
+                if (mysql_error() ) {
                     $errorFlag = 1;
+                } else {
+                    if( mysql_result($result, 0) == 0 ) {
+                        $errorFlag = 1;
+                    }
                 }
             }
 
@@ -46,7 +47,7 @@ mysql_select_db(DB_DATABASE) or die("database not available");
         else {
             $errorFlag = 1;
         }
-        //echo "<p>I ma gereSS</p>";
+
         if ($errorFlag  == 1)  {
             //echo "<p>should forward</p>";
             header("Location: profile_manager.php?res=update_error");
