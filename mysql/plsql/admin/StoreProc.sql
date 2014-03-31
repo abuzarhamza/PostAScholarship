@@ -28,8 +28,8 @@ end; $$
 create procedure verify_and_update_adminprofile(in_user_name varchar(30), in_display_name varchar(30),
     in_first_name varchar(30),in_last_name varchar(30),in_about_me varchar(250),in_web varchar(250))
 begin
-    if (select user_name from user_profile where user_name = in_user_name ) then
-        update user_profile set display_name = display_name,
+    if (select id from user_profile where user_name = in_user_name ) then
+        update user_profile set display_name = in_display_name,
                                 first_name = in_first_name,
                                 last_name = in_last_name,
                                 about_me = in_about_me,
@@ -37,7 +37,7 @@ begin
          where user_name  = in_user_name;
         select '1';
     else
-        select 'does not exists';
+        select '0';
     end if;
 end; $$
 
