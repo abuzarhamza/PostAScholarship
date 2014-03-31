@@ -13,10 +13,15 @@
 </head>
 
 <body>
-<div="container" style="margin: 10px;">
+<div="container">
 <?php
     include("_top.php");
 ?>
+
+        <?
+            //TO DO
+            //if ($RES == "old_new_mismatch") echo "password mismatch";
+        ?>
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
@@ -41,23 +46,25 @@
 
         <form class="form-horizontal" role="form" action="./admin_login.php?action=change_password" method="post">
             <div id ="old_password_form_feedback" class="form-group has-success has-feedback">
-                <label for="inputPassword3" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> Old Password</label>
+                <label for="old_password" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> Old Password</label>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                   <input type="password" class="form-control" id="old_password" name="old_password" placeholder="Password" onblur="validateNonEmpty(this,'old_password_form_feedback','old_password_val');">
                   <span id="old_password_val"></span>
                 </div>
             </div>
             <div id="new_password_form_feedback" class="form-group has-success has-feedback">
-                <label for="inputPassword3" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> New Password</label>
+                <label for="new_password" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> New Password</label>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                   <input type="password" class="form-control" id="new_password" name="new_password" placeholder="New Password" onblur="validateNonEmpty(this,'new_password_form_feedback','new_password_val');">
                   <span id="new_password_val"></span>
                 </div>
             </div>
-            <div class="form-group has-success has-feedback">
-                <label for="inputPassword3" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> Confirm Password</label>
+            <div id="confirm_password_form_feedback" class="form-group has-success has-feedback">
+                <label for="confirm_password" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> Confirm Password</label>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                  <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password"  onblur="comparePwd">
+                  <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password"  onblur="comparePwd(this,'confirm_password_form_feedback','condfirm_password_val');">
+                  <span id="condfirm_password_val"></span>
+                  <span id="condfirm_password_help"></span>
                 </div>
             </div>
 
@@ -84,14 +91,32 @@ function validateNonEmpty(inputField,form_class,form_id) {
     }
 }
 
-function comparePwd(inputField) {
+function comparePwd(inputField,form_class,form_id) {
     if (inputField.value.length == 0 ) {
         document.getElementById(form_class).className="form-group has-error has-feedback";
         document.getElementById(form_id).className="glyphicon glyphicon-remove form-control-feedback";
     }
     else {
-        document.getElementById(form_class).className="form-group has-success has-feedback";
-        document.getElementById(form_id).className="glyphicon glyphicon-ok form-control-feedback";
+
+        if ( inputField.value != document.getElementById('new_password').value ) {
+            document.getElementById(form_class).className="form-group has-error has-feedback";
+            document.getElementById(form_id).className="glyphicon glyphicon-remove form-control-feedback";
+            document.getElementById('condfirm_password_help').className="help-block";
+            document.getElementById('condfirm_password_help').innerHTML="confirm password did not match to new password value";
+
+            document.getElementById('new_password_form_feedback').className="form-group has-error has-feedback";
+            document.getElementById('new_password_val').className="glyphicon glyphicon-remove form-control-feedback";
+        }
+        else {
+            document.getElementById(form_class).className="form-group has-success has-feedback";
+            document.getElementById(form_id).className="glyphicon glyphicon-ok form-control-feedback";
+            document.getElementById('condfirm_password_help').className="";
+            document.getElementById('condfirm_password_help').innerHTML="";
+
+            document.getElementById('new_password_form_feedback').className="form-group has-success has-feedback";
+            document.getElementById('new_password_val').className="glyphicon glyphicon-ok form-control-feedback";
+        }
+
     }
 }
 
