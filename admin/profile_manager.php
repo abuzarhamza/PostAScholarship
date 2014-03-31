@@ -17,6 +17,15 @@
 ?>
 
     <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
+        <?php
+            if($RES=="update_success") echo '<div class="alert alert-success alert-dismissable">User profile updated successfully</div>';
+            if($RES=="update_error") echo '<div class="alert alert-danger alert-dismissable">User profile  could not be updated due to some error</div>';
+        ?>
+        </div>
+    </div>
+
+    <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
                 <h1>Profile</h1>
             </div>
@@ -45,7 +54,7 @@
 ?>
 
 <?php if ($result) : ?>
-        <form class="form-horizontal" role="form" action="./admin_login.php?action=save_admin_settings" method="post">
+        <form class="form-horizontal" role="form" action="./profile_ops.php?action=update_user_profile" method="post">
             <div class="form-group">
                 <label for="display_name" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> Display Name</label>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
@@ -87,7 +96,9 @@
             </div>
         </form>
 <? else : ?>
-
+    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
+        <div class="alert alert-danger alert-dismissable">Error encountered !!</div>
+    </div>
 <? endif; ?>
 
 <?php
