@@ -24,7 +24,6 @@ mysql_select_db(DB_DATABASE) or die("database not available");
             foreach (explode(",", $keyForUpdateForm) as $key) {
                 if ( array_key_exists($key, $_POST) ) {
                     $_POST[$key] = mysql_real_escape_string(trim($_POST[$key]));
-
                 }
                 else {
                     $errorFlag = 1;
