@@ -84,8 +84,7 @@
             <div class="form-group">
                 <label for="about_me" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> About me</label>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                  <textarea class="form-control" id="about_me" name="about_me" rows="4" cols="40" maxlength="140">
-                    <?=$arrRes['about_me']; ?> </textarea>
+                  <textarea class="form-control" id="about_me" name="about_me" rows="4" cols="40" maxlength="140"><?=$arrRes['about_me']; ?></textarea>
                 </div>
             </div>
 
