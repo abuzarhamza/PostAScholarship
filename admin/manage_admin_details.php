@@ -48,7 +48,7 @@
                        WHERE USERNAME = '$username'";
         $result   = mysql_query($sql) or die(mysql_error());
         $num_rows = mysql_num_rows($result);
-        $arrres   = mysql_fetch_assoc($result)
+        $arrres   = mysql_fetch_assoc($result);
     ?>
     <? if ($num_rows != 0 && $username == 'admin')
     {?>
