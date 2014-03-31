@@ -90,33 +90,37 @@
       </div>
     </div>
 
-
 <? } elseif ( $page == "dashboard" ) { ?>
 
-                <h1>Dashboard</h1>
-                 <button type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-file"> Manage Post</span>
-                 </button>
-                 <br/><br/>
-                 <button type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-tags"> Manage Tags</span>
-                 </button>
-                 <br/><br/>
-                 <button type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-star-empty"> Manage Badge</span>
-                 </button>
-                 <br/><br/>
-                  <button type="button" class="btn btn-default btn-lg">
-                    <span class="glyphicon glyphicon-pushpin"> Manage SocialBookmarks</span>
-                 </button>
-                 <br/><br/>
-                  <button type="button" class="btn btn-default btn-lg">
-                    <span class="fa fa-users"> Manage User</span>
-                  </button>
-                  <br/><br/>
-                  <button type="button" class="btn btn-default btn-lg">
-                    <span class="fa fa-lock"> Manage admin </span>
-                  </button>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
+          <h1>Dashboard</h1>
+      </div>
+    </div>
+
+    <!--Breadcrum-->
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
+          <ol class="breadcrumb">
+            <li><a href="./index.php?page=home">Home</a></li>
+            <li class="active">Dashboard</li>
+          </ol>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-md-offset-1 col-lg-offset-1">
+        <div class="span2">
+          <p><a href="./manage_admin_details.php"><button class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-file"> </span> Manage Post</button></p>
+          <p><a href="./change_admin_password.php"><button class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-tags"></span> Manage Tags</button></a></p>
+          <p><a href="./change_admin_password.php"><button class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-star-empty"></span> Manage Badge</button></a></p>
+          <p><a href="./change_admin_password.php"><button class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-pushpin"></span> Manage SocialBookmarks</button></a></p>
+          <p><a href="./change_admin_password.php"><button class="btn btn-default btn-lg btn-block"><span class="fa fa-users"></span>  Manage User</button></a></p>
+          <p><a href="./change_admin_password.php"><button class="btn btn-default btn-lg btn-block"><span class="fa fa-lock"></span>  Manage admin</button></a></p>
+        </div>
+      </div>
+    </div>
+
   <?php } elseif ( $page == "home" )  { ?>
       <div class="jumbotron">
         <h1>Hello, Admin!</h1>
