@@ -41,4 +41,29 @@ begin
     end if;
 end; $$
 
+
+
+create procedure get_postview_for_admin(in_offset int,in_max_row int)
+begin
+    if (select count(id) from post where post_type = "POST") then
+        select p.title as title,u.user_name as title,p.creation_date as creation_date,p.lastedit_date as lastedit_date,p.post_type as post_type,p.book_count as book_count,p.view as view
+          from post p
+          inner join user_profile u
+         on p.author_id = u.id
+         and p.post_type = "POST"
+         and p.root = 1
+         order by creation_date
+         limit in_offset,in_max_row;
+    else
+        select '0';
+    end if;
+end; $$
+
+create procedure get_count_posttype(in_post varchar(30))
+begin
+    select count(id) from post
+     where post_type = in_post
+       and root = 1
+end;
+
 delimiter ;
