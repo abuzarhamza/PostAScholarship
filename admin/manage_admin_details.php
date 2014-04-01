@@ -8,6 +8,7 @@
 <head>
 <meta charset="utf-8" />
 <title><? echo SITE_URL_TITLE; ?></title>
+<link rel="icon" href="templates/img/logo.png" sizes="16x16" type="image/png">
 <? include "_assets.php";?>
 </head>
 

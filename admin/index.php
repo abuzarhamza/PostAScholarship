@@ -9,6 +9,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
+<link rel="icon" href="templates/img/logo.png" sizes="16x16" type="image/png">
 <title><? echo SITE_URL_TITLE; ?> - Administrator</title>
 <?php include "_assets.php";?>
 </head>

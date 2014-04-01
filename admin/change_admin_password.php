@@ -8,6 +8,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
+<link rel="icon" href="admin/templates/img/favicon.ico" type="image/gif" sizes="16x16">
+<link rel="icon" href="templates/img/logo.png" sizes="16x16" type="image/png">
 <title><? echo SITE_URL_TITLE; ?></title>
 <? include "_assets.php";?>
 </head>
