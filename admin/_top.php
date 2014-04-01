@@ -111,7 +111,7 @@
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-md-offset-1 col-lg-offset-1">
         <div class="span2">
-          <p><a href="./manage_admin_details.php"><button class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-file"> </span> Manage Post</button></p>
+          <p><a href="./post.php"><button class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-file"> </span> Manage Post</button></p>
           <p><a href="./change_admin_password.php"><button class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-tags"></span> Manage Tags</button></a></p>
           <p><a href="./change_admin_password.php"><button class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-star-empty"></span> Manage Badge</button></a></p>
           <p><a href="./change_admin_password.php"><button class="btn btn-default btn-lg btn-block"><span class="glyphicon glyphicon-pushpin"></span> Manage SocialBookmarks</button></a></p>
