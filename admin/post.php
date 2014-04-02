@@ -103,16 +103,23 @@
                 $postCounter++;
             }
 
+            $pageHtml = '<div class="row">  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >';
+            $pageHtml .= '<ul class="pagination">';
+            $countPage = 1;
 
-            if ( $page > 0  ) {
 
-            }
-            elseif ( $page == 0 ) {
-
-            }
-            elseif ( $leftRec < $rec_limit ) {
-
-            }
+           if ( $page == 0 ) {
+                $pageHtml .= '<li><a href="#">&laquo;</a></li>';
+                $pageHtml .= '<li><a href="'.$_PHP_SELF?page=$last.'">'.$page.'</a></li>';
+                $pageHtml .= '<li><a href="#">&raquo;</a></li>';
+           }
+           elseif ( $page > 0 ) {
+                $pageHtml = "";
+           }
+           elseif ( $left_rec < $rec_limit ) {
+                $pageHtml = "";
+           }
+           $pageHtml .= '</div> </div>';
 
         }
 
@@ -155,6 +162,7 @@
     </div>
       <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
         <ul class="pagination">
+              <li><a href="#">&laquo;</a></li>
               <li><a href="#">1</a></li>
               <li><a href="#">2</a></li>
               <li><a href="#">3</a></li>
