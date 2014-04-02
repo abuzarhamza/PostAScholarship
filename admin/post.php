@@ -42,6 +42,7 @@
         </div>
     </div>
 <?
+
         $sql         = "CALL get_count_posttype('POST')";
         $result      = mysql_query($sql);
         $pageHtml    = "";
@@ -52,11 +53,12 @@
                           <td>creation date</td>
                           <td>view,bookmark stats</td>
                         </tr>\n";
+        $errorFlag   = 0;
 
         if ( mysql_error() ) {
-            header("Location: $_PHP_SELF?res=sqlerror");
-            exit;
+            $errorFlag =1;
         }
+
 
         $postCount   = mysql_result($result, 0);
         $recLimit    = 10;
@@ -65,50 +67,52 @@
             $recLimit    = $_GET{'rec'};
         }
 
-        if ($postCount == 0 ) {
-            header("Location: $_PHP_SELF?res=nopost");
-            exit;
+        if ($postCount == 0 && $errorFlag == 0 ) {
+            $errorFlag = 2;
         }
 
-        if ( isset($_GET{'page'} ) ) {
-           $page   = $_GET{'page'} + 1;
-           $offset = $rec_limit * $page ;
-        }
-        else {
-           $page = 0;
-           $offset = 0;
-        }
-        $leftRec = $postCount - ($page * $recLimit);
+        if ( $errorFlag == 0 ) {
+            if ( isset($_GET{'page'} ) ) {
+               $page   = $_GET{'page'} + 1;
+               $offset = $rec_limit * $page ;
+            }
+            else {
+               $page = 0;
+               $offset = 0;
+            }
+            $leftRec = $postCount - ($page * $recLimit);
 
-        $sql         = "CALL get_postviewtags_for_admin($offset,$recLimit,'POST')";
-        $result      = mysql_query($sql);
-        if ( mysql_error() ) {
-            header("Locatrion: $_PHP_SELF?res=sqlerror");
-            exit;
-        }
+            $sql         = "CALL get_postviewtags_for_admin($offset,$recLimit,'POST')";
+            $result      = mysql_query($sql);
+            // if ( mysql_error() ) {
+            //     header("Locatrion: $_PHP_SELF?res=sqlerror");
+            //     exit;
+            // }
 
-        $postCounter = 1;
-        while ( $row = mysql_fetch_array ($result)) {
-            $postHtml .= '<tr>
-                          <td>$postCounter</td>
-                          <td><a href="">'.$row['title'].'</a></td>
-                          <td><a href="">'.$row['author name'].'</a></td>
-                          <td>'.$row['creation_date'].'</td>
-                            <td> <span class="glyphicon glyphicon-bookmark"> <span class="badge"> '.$row['book_count'] .'</span>
-                               <span class=" fa fa-caret-square-o-right"> <span class="badge"> '. $row['view']."</span>
-                          </td>
-                        </tr>\n";
-            $postCounter++;
-        }
+            $postCounter = 1;
+            while ( $row = mysql_fetch_array ($result)) {
+                $postHtml .= '<tr>
+                              <td>$postCounter</td>
+                              <td><a href="">'.$row['title'].'</a></td>
+                              <td><a href="">'.$row['author name'].'</a></td>
+                              <td>'.$row['creation_date'].'</td>
+                                <td> <span class="glyphicon glyphicon-bookmark"> <span class="badge"> '.$row['book_count'] .'</span>
+                                   <span class=" fa fa-caret-square-o-right"> <span class="badge"> '. $row['view']."</span>
+                              </td>
+                            </tr>\n";
+                $postCounter++;
+            }
 
 
-        if ( $page > 0  ) {
+            if ( $page > 0  ) {
 
-        }
-        elseif ( $page == 0 ) {
+            }
+            elseif ( $page == 0 ) {
 
-        }
-        elseif ( $leftRec < $rec_limit ) {
+            }
+            elseif ( $leftRec < $rec_limit ) {
+
+            }
 
         }
 
@@ -128,6 +132,18 @@
         //    echo "<a href=\"$_PHP_SELF?page=$last\">Last 10 Records</a>";
         // }
 ?>
+
+    <!--error msg-->
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
+<?
+    if ($RES == "sqlerror" || $errorFlag==1 ) echo '<div class="alert alert-danger alert-dismissable">SQL error</div>';
+    if ($RES == "nopost" ||  $errorFlag==2) echo '<div class="alert alert-danger alert-dismissable">No post can be found</div>';
+?>
+        </div>
+    </div>
+
+
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
             <div class="panel panel-default">
