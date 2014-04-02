@@ -13,6 +13,10 @@
 <title><? echo SITE_URL_TITLE; ?> - Administrator</title>
 <?php include "_assets.php";?>
 </head>
+<?php
+    include("_top.php");
+?>
+
 <div="container" style="margin: 10px;">
     <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
@@ -30,23 +34,121 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-md-offset-1 col-lg-offset-1" >
+            <div class="span2">
+              <p><a href="./add_post.php"><button class="btn btn-warning"><span class="fa fa-pencil-square-o"> </span> Add post</button></p>
+            </div>
+        </div>
+    </div>
 <?
         $sql         = "CALL get_count_posttype('POST')";
         $result      = mysql_query($sql);
-        $postCount   = mysql_result($result, 0);
-        $outputTable = "";
+        $pageHtml    = "";
+        $postHtml    = "<tr>
+                          <td>#</td>
+                          <td>title</td>
+                          <td>author name</td>
+                          <td>creation date</td>
+                          <td>view,bookmark stats</td>
+                        </tr>\n";
 
         if ( mysql_error() ) {
-
-        } else {
-            if( $postCount == 0 ) {
-                $outputTable = "<tr></tr>";
-            }
-            else {
-
-            }
+            header("Location: $_PHP_SELF?res=sqlerror");
+            exit;
         }
+
+        $postCount   = mysql_result($result, 0);
+        $recLimit    = 10;
+
+        if (isset( $_GET{'rec'} ) ) {
+            $recLimit    = $_GET{'rec'};
+        }
+
+        if ($postCount == 0 ) {
+            header("Location: $_PHP_SELF?res=nopost");
+            exit;
+        }
+
+        if ( isset($_GET{'page'} ) ) {
+           $page   = $_GET{'page'} + 1;
+           $offset = $rec_limit * $page ;
+        }
+        else {
+           $page = 0;
+           $offset = 0;
+        }
+        $leftRec = $postCount - ($page * $recLimit);
+
+        $sql         = "CALL get_postviewtags_for_admin($offset,$recLimit,'POST')";
+        $result      = mysql_query($sql);
+        if ( mysql_error() ) {
+            header("Locatrion: $_PHP_SELF?res=sqlerror");
+            exit;
+        }
+
+        $postCounter = 1;
+        while ( $row = mysql_fetch_array ($result)) {
+            $postHtml .= '<tr>
+                          <td>$postCounter</td>
+                          <td><a href="">'.$row['title'].'</a></td>
+                          <td><a href="">'.$row['author name'].'</a></td>
+                          <td>'.$row['creation_date'].'</td>
+                            <td> <span class="glyphicon glyphicon-bookmark"> <span class="badge"> '.$row['book_count'] .'</span>
+                               <span class=" fa fa-caret-square-o-right"> <span class="badge"> '. $row['view']."</span>
+                          </td>
+                        </tr>\n";
+            $postCounter++;
+        }
+
+
+        if ( $page > 0  ) {
+
+        }
+        elseif ( $page == 0 ) {
+
+        }
+        elseif ( $leftRec < $rec_limit ) {
+
+        }
+
+        // if( $page > 0 )
+        // {
+        //    $last = $page - 2;
+        //    echo "<a href=\"$_PHP_SELF?page=$last\">Last 10 Records</a> |";
+        //    echo "<a href=\"$_PHP_SELF?page=$page\">Next 10 Records</a>";
+        // }
+        // else if( $page == 0 )
+        // {
+        //    echo "<a href=\"$_PHP_SELF?page=$page\">Next 10 Records</a>";
+        // }
+        // else if( $left_rec < $rec_limit )
+        // {
+        //    $last = $page - 2;
+        //    echo "<a href=\"$_PHP_SELF?page=$last\">Last 10 Records</a>";
+        // }
 ?>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
+            <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Posts</div>
+                <table class="table table-hover table-striped">
+                </table>
+        </div>
+    </div>
+      <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
+        <ul class="pagination">
+              <li><a href="#">1</a></li>
+              <li><a href="#">2</a></li>
+              <li><a href="#">3</a></li>
+              <li><a href="#">4</a></li>
+              <li><a href="#">5</a></li>
+              <li><a href="#">&raquo;</a></li>
+         </ul>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
             <div class="table-responsive">
@@ -56,9 +158,7 @@
         </div>
     </div>
 
-<?php
-    include("_top.php");
-?>
+
 
 <?php
     include("_footer.php");
