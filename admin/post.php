@@ -108,36 +108,8 @@ foreach ($obj->page_set_pages as $v) {
         }
         $sql         = "CALL get_postviewtags_for_admin($offset,$recLimit,'POST')";
         $result      = mysql_query($sql);
-
-    }
-
-
-        if ($postCount == 0 && $errorFlag == 0 ) {
-            $errorFlag = 2;
-        }
-
-        if ( $errorFlag == 0 ) {
-            if ( isset($_GET{'page'} ) ) {
-               $page   = $_GET{'page'} + 1;
-               $offset = $rec_limit * $page ;
-            }
-            else {
-               $page = 0;
-               $offset = 0;
-            }
-            $leftRec = $postCount - ($page * $recLimit);
-
-            $sql         = "CALL get_postviewtags_for_admin($offset,$recLimit,'POST')";
-            $result      = mysql_query($sql);
-            // if ( mysql_error() ) {
-            //     header("Locatrion: $_PHP_SELF?res=sqlerror");
-            //     exit;
-            // }
-
-            $postCounter = 1;
-            while ( $row = mysql_fetch_array ($result)) {
+        while ( $row = mysql_fetch_array ($result)) {
                 $postHtml .= '<tr>
-                              <td>$postCounter</td>
                               <td><a href="">'.$row['title'].'</a></td>
                               <td><a href="">'.$row['author name'].'</a></td>
                               <td>'.$row['creation_date'].'</td>
@@ -145,44 +117,39 @@ foreach ($obj->page_set_pages as $v) {
                                    <span class=" fa fa-caret-square-o-right"> <span class="badge"> '. $row['view']."</span>
                               </td>
                             </tr>\n";
-                $postCounter++;
-            }
-
-            $pageHtml = '<div class="row">  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >';
-            $pageHtml .= '<ul class="pagination">';
-            $countPage = 1;
-
-
-           if ( $page == 0 ) {
-                $pageHtml .= '<li><a href="#">&laquo;</a></li>';
-                $pageHtml .= '<li><a href="'.$_PHP_SELF?page=$last.'">'.$page.'</a></li>';
-                $pageHtml .= '<li><a href="#">&raquo;</a></li>';
-           }
-           elseif ( $page > 0 ) {
-                $pageHtml = "";
-           }
-           elseif ( $left_rec < $rec_limit ) {
-                $pageHtml = "";
-           }
-           $pageHtml .= '</div> </div>';
-
         }
 
-        // if( $page > 0 )
-        // {
-        //    $last = $page - 2;
-        //    echo "<a href=\"$_PHP_SELF?page=$last\">Last 10 Records</a> |";
-        //    echo "<a href=\"$_PHP_SELF?page=$page\">Next 10 Records</a>";
-        // }
-        // else if( $page == 0 )
-        // {
-        //    echo "<a href=\"$_PHP_SELF?page=$page\">Next 10 Records</a>";
-        // }
-        // else if( $left_rec < $rec_limit )
-        // {
-        //    $last = $page - 2;
-        //    echo "<a href=\"$_PHP_SELF?page=$last\">Last 10 Records</a>";
-        // }
+        //pagination
+        $pageHtml .= '<div class="row">  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >';
+        $pageHtml .= '<ul class="pagination">';
+
+        if ($pageObj->current_page == 1 ) {
+          $pageHtml .= '<li class="disabled">&laquo</li>';
+        }
+        else {
+          $pageHtml .= '<li><a href="'.$_PHP_SELF?page=$pageObj->previous_page()&rec=10.'">&laquo;</a></li>';
+        }
+
+        foreach ($pageObj->page_set_pages as $pageNumber) {
+             if ( $pageNumber == $pageObj->current_page ) {
+                $pageHtml .= '<li class="active"><span>'.$pageNumber.'<span class="sr-only">(current)</span></span></li>';
+             }
+             else {
+                $pageHtml .= '<li><a href="'.$_PHP_SELF?page=$pageNumber&rec=10.'">'.$page.'</a></li>';
+             }
+        }
+
+        if ( $pageObj->current_page == $pageObj->last_page()) {
+            $pageHtml .= '<li class="disabled">&raquo;</li>';
+        }
+        else {
+            $pageHtml .= '<li><a href="'.$_PHP_SELF?page=$pageObj->next_page()&rec=10.'">&raquo;</a></li>';
+        }
+
+        $pageHtml .= '</div> </div>';
+
+    }
+
 ?>
 
     <!--error msg-->
