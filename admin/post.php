@@ -60,12 +60,57 @@
         }
 
 
-        $postCount   = mysql_result($result, 0);
-        $recLimit    = 10;
+        $postCount    = mysql_result($result, 0);
 
-        if (isset( $_GET{'rec'} ) ) {
+        /*
+**********SAMPLE USAGE *************
+$obj = new DataPageset(500,10,4,5,'slide');
+echo "test1\n";
+echo "current page :" . $obj->current_page . "\n";
+echo "previous_page : ". $obj->previous_page() . "\n";
+echo "last_page : ". $obj->last_page() . "\n";
+echo "next_page : ". $obj->next_page() . "\n";
+echo "enteries_on_this_page : ". $obj->enteries_on_this_page() . "\n";
+
+$obj->current_page = 26;
+echo "test1\n";
+echo "current page :" . $obj->current_page . "\n";
+echo "previous_page : ". $obj->previous_page() . "\n";
+echo "last_page : ". $obj->last_page() . "\n";
+echo "next_page : ". $obj->next_page() . "\n";
+echo "enteries_on_this_page : ". $obj->enteries_on_this_page() . "\n";
+$obj->pages_in_set();
+
+foreach ($obj->page_set_pages as $v) {
+    echo "$v\n";
+}
+*/
+    if ( $postCount == 0 ) {
+      $errorFlag = 2;
+    }
+    else {
+        $recLimit     = 10;
+        $currentPage  = 1;
+
+        if ( isset( $_GET{'rec'} ) ) {
             $recLimit    = $_GET{'rec'};
         }
+        if ( isset( $_GET{'page'} ) ) {
+            $currentPage = $_GET{'page'};
+        }
+
+        $pageObj      =  new DataPageset($postCount,$recLimit,$currentPage,5,'slide');
+        if ( $pageObj->current_page == 1 ) {
+          $offset      = 0;
+        }
+        else {
+          $offset      =  $pageObj->current_page * $recLimit;
+        }
+        $sql         = "CALL get_postviewtags_for_admin($offset,$recLimit,'POST')";
+        $result      = mysql_query($sql);
+
+    }
+
 
         if ($postCount == 0 && $errorFlag == 0 ) {
             $errorFlag = 2;
