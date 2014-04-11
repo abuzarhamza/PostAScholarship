@@ -127,15 +127,16 @@ foreach ($obj->page_set_pages as $v) {
           $pageHtml .= '<li class="disabled">&laquo</li>';
         }
         else {
-          $pageHtml .= '<li><a href="'.$_PHP_SELF?page=$pageObj->previous_page()&rec=10.'">&laquo;</a></li>';
+          $pageHtml .= '<li><a href="'.$_PHP_SELF.'?page='.$pageObj->previous_page().'&rec=10'.'">&laquo;</a></li>';
         }
 
         foreach ($pageObj->page_set_pages as $pageNumber) {
+
              if ( $pageNumber == $pageObj->current_page ) {
                 $pageHtml .= '<li class="active"><span>'.$pageNumber.'<span class="sr-only">(current)</span></span></li>';
              }
              else {
-                $pageHtml .= '<li><a href="'.$_PHP_SELF?page=$pageNumber&rec=10.'">'.$page.'</a></li>';
+                $pageHtml .= '<li><a href="'.$_PHP_SELF.'?page='.$pageNumber.'&rec=10'.'">'.$page.'</a></li>';
              }
         }
 
@@ -143,7 +144,7 @@ foreach ($obj->page_set_pages as $v) {
             $pageHtml .= '<li class="disabled">&raquo;</li>';
         }
         else {
-            $pageHtml .= '<li><a href="'.$_PHP_SELF?page=$pageObj->next_page()&rec=10.'">&raquo;</a></li>';
+            $pageHtml .= '<li><a href="'.$_PHP_SELF.'?page='.$pageObj->next_page().'&rec=10'.'">&raquo;</a></li>';
         }
 
         $pageHtml .= '</div> </div>';
@@ -155,13 +156,14 @@ foreach ($obj->page_set_pages as $v) {
     <!--error msg-->
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
-<?
-    if ($RES == "sqlerror" || $errorFlag==1 ) echo '<div class="alert alert-danger alert-dismissable">SQL error</div>';
-    if ($RES == "nopost" ||  $errorFlag==2) echo '<div class="alert alert-danger alert-dismissable">No post can be found</div>';
-?>
+        <?
+            if ($RES == "sqlerror" || $errorFlag==1 ) echo '<div class="alert alert-danger alert-dismissable">SQL error</div>';
+            if ($RES == "nopost" ||  $errorFlag==2) echo '<div class="alert alert-danger alert-dismissable">No post can be found</div>';
+        ?>
         </div>
     </div>
 
+<?php if ( $errorFlag != 1 && $errorFlag != 2 ) : ?>
 
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
@@ -170,18 +172,7 @@ foreach ($obj->page_set_pages as $v) {
             <div class="panel-heading">Posts</div>
                 <table class="table table-hover table-striped">
                 </table>
-        </div>
-    </div>
-      <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
-        <ul class="pagination">
-              <li><a href="#">&laquo;</a></li>
-              <li><a href="#">1</a></li>
-              <li><a href="#">2</a></li>
-              <li><a href="#">3</a></li>
-              <li><a href="#">4</a></li>
-              <li><a href="#">5</a></li>
-              <li><a href="#">&raquo;</a></li>
-         </ul>
+            </div>
         </div>
     </div>
 
@@ -192,9 +183,9 @@ foreach ($obj->page_set_pages as $v) {
             </table>
             </div>
         </div>
-    </div>
+    </div>';
 
-
+<?php endif;?>
 
 <?php
     include("_footer.php");
