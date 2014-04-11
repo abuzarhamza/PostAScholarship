@@ -45,7 +45,8 @@ create procedure get_count_posttype(in_post varchar(30))
 begin
     select count(id) from post
      where post_type = in_post
-       and root = 1;
+       and root = 1
+       order by creation_date;
 end; $$
 
 create procedure get_postview_for_admin(in_offset int,in_max_row int,in_post_type varchar(30))
