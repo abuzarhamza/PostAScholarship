@@ -58,19 +58,27 @@
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-md-offset-1 col-lg-offset-1">
-            <input type="password" class="form-control" placeholder="Password" id ="password" name="password" required>
+            <input type="password" class="form-control" placeholder="Password" id ="password" name="password" onchange="enableSignin('sign_in');" required>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1">
-            <button class="btn btn-lg btn-primary btn-block" type="submit" >Sign in</button>
+            <button id="sign_in"  class="btn btn-lg btn-primary btn-block" type="submit" >Sign in</button>
         </div>
     </div>
 </form>
 
 <script language="Javascript" type="text/javascript">
-function check_form()
-{
+function enableSignin(inputField) {
+    if ( inputField.value.length != 0 ) {
+        document.getElementById(inputField).className="btn btn-lg btn-success btn-block";
+    }
+    else {
+        document.getElementById(inputField).className="btn btn-lg btn-primary btn-block";
+    }
+}
+
+function check_form() {
     form=document.frmLogin;
     error=0;
     msg="";
