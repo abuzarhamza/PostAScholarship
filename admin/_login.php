@@ -50,7 +50,7 @@
 
 <!--form-->
 
-<form class="form-signin" role="form" method="post" action="./admin_login.php?action=login" name ="adminlogin" id="adminlogin" onSubmit="return check_form();">
+<form class="form-signin" role="form" method="post" action="./admin_login.php?action=login" name ="adminlogin" id="adminlogin">
     <div class="row">
       <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-md-offset-1 col-lg-offset-1">
         <input type="username" class="form-control" placeholder="User name" id ="username" name="username" required autofocus>
@@ -70,7 +70,10 @@
 
 <script language="Javascript" type="text/javascript">
 function enableSignin(inputField) {
-    if ( inputField.value.length != 0 ) {
+
+    if ( document.getElementById("password").value.length != 0
+        && document.getElementById("username").value.length != 0
+    ) {
         document.getElementById(inputField).className="btn btn-lg btn-success btn-block";
     }
     else {
