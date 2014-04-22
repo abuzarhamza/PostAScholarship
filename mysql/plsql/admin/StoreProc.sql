@@ -84,4 +84,26 @@ begin
 end; $$
 delimiter ;
 
+
+
+create procedure insert_post_for_admin(in_user_name varchar(30) , in_title varchar(250), in_content text, in_html text,in_slug varchar(250) , in_post_type varchar(50))
+    begin
+        declare in_post_id int;
+        declare in_author_id int;
+        declare in_lastedit_user_id int;
+        declare in_creation_date datetime;
+        declare in_lastedit_date datetime;
+        if ( select id from user_profile where user_name = in_user_name )  then
+            select id into in_author_id from user_profile where user_name = in_user_name;
+            select now() into in_creation_date;
+            set in_lastedit_user_id = in_author_id;
+            set in_lastedit_date    = in_creation_date;
+            insert into post(author_id,title,content,html,slug,post_type,creation_date,lastedit_date,lastedit_user_id)
+            values (in_author_id,in_title,in_content,in_html,in_slug,in_post_type,in_creation_date,in_lastedit_date,in_lastedit_user_id);
+            select last_insert_id() from post;
+        else
+            select '0';
+        end if;
+    end; $$
+
 --select tag_name from tag t where t.id in (select tag_id from tag_post_rel where post_id = p.id),
