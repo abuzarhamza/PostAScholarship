@@ -52,38 +52,17 @@ end; $$
 create procedure get_postview_for_admin(in_offset int,in_max_row int,in_post_type varchar(30))
 begin
     if (select count(id) from post where post_type = in_post_type) then
-        select p.title as title,u.user_name as user_name,p.creation_date as creation_date,p.lastedit_date as lastedit_date,p.post_type as post_type,p.book_count as book_count,p.view as view
+        select p.id as id, p.title as title,p.creation_date as creation_date,p.lastedit_date as lastedit_date,p.post_type as post_type,p.book_count as book_count,p.view as view, u.user_name as author_id
           from post p
           inner join user_profile u
-         on p.author_id = u.id
-         and p.post_type = in_post_type
+          on p.post_type = in_post_type
          and p.root = 1
-         order by creation_date
-         limit in_offset,in_max_row;
-    else
-        select '0';
-    end if;
-end; $$
-
-
-
-create procedure get_postviewtags_for_admin(in_offset int,in_max_row int,in_post_type varchar(30))
-begin
-    if (select count(id) from post where post_type = in_post_type) then
-        select p.title as title,u.user_name as user_name,p.creation_date as creation_date,p.lastedit_date as lastedit_date,p.post_type as post_type,p.book_count as book_count,p.view as view
-          from post p
-         inner join user_profile u
-            on p.author_id = u.id
-           and p.post_type = in_post_type
-           and p.root = 1
          order by p.creation_date
          limit in_offset,in_max_row;
     else
         select '0';
     end if;
 end; $$
-delimiter ;
-
 
 
 create procedure insert_post_for_admin(in_user_name varchar(30) , in_title varchar(250), in_content text, in_html text,in_slug varchar(250) , in_post_type varchar(50))
