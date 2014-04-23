@@ -6,8 +6,11 @@ header("Cache-control: private");
 require_once("./includes/config.php"); //include configuration file
 require_once("./includes/functions.php"); //include file containing all functions
 
-$conn = mysql_connect(DB_SERVER,DB_SERVER_USERNAME,DB_SERVER_PASSWORD);
-mysql_select_db(DB_DATABASE) or die("database not available");
+if ( 0 ) {
+    $conn = mysql_connect(DB_SERVER,DB_SERVER_USERNAME,DB_SERVER_PASSWORD);
+    mysql_select_db(DB_DATABASE) or die("database not available");
+}
+
 ?>
 
 <?
@@ -33,9 +36,13 @@ if  ( array_key_exists('action', $_GET) ) {
                             AND status='1'
                        ";
 
-            $result  = mysql_query($sql) or die(mysql_error());
-            $arrres  = mysql_fetch_assoc($result);
-            $numRows = mysql_num_rows($result);
+            $result = $conn->query($sql);
+            if ($result->error) {
+                printf("Query failed: %s\n",$result->error);
+                exit();
+            }
+            $arrres = $result->fetch_assoc();
+            $numRows = $result->num_rows;
 
             if ( $numRows != 0 ) {
                 //session data is being set
@@ -60,8 +67,13 @@ if  ( array_key_exists('action', $_GET) ) {
                    SET last_login='".TimestampToMySQLdatetime()."' 
                  WHERE username='$_SESSION[s_admin_username]'";
 
-        $result=mysql_query($sql) or die(mysql_error());
-        
+
+        $result = $conn->query($sql);
+        if ($result->error) {
+            printf("Query failed: %s\n",$result->error);
+            exit();
+        }
+
         $_SESSION['s_admin_logged_in'] = false;
         $_SESSION['s_admin_username']  = "";
         $_SESSION['s_admin_type']      = "";
@@ -99,21 +111,31 @@ if  ( array_key_exists('action', $_GET) ) {
             $sql="SELECT * FROM admin_mst 
                    WHERE username ='$username' 
                      AND password ='$oldPassword'";
-            
-            $result   = mysql_query($sql) or die(mysql_error());
-            $num_rows = mysql_num_rows($result);
+
+            $result   = $conn->query($sql);
+            if ($result->error) {
+                printf("Query failed: %s\n",$result->error);
+                exit();
+            }
+            $num_rows = $result->num_rows;
 
             if($num_rows!=0) {
                 $sql="UPDATE admin_mst SET password='$newPassword'
                        WHERE username='$username'";
-                $result=mysql_query($sql) or die(mysql_error());
+
+
+                $result   = $conn->query($sql);
+                if ($result->error) {
+                    printf("Query failed: %s\n",$result->error);
+                    exit();
+                }
 
                 //session variable unset
                 $_SESSION['s_admin_logged_in'] = false;
                 $_SESSION['s_admin_username']  = "";
                 $_SESSION['s_admin_type']      = "";
                 session_destroy();
-            
+
                 header("Location: index.php?res=change_password_success");
             } 
             else {
@@ -135,8 +157,11 @@ if  ( array_key_exists('action', $_GET) ) {
             //TO DO : CONVERT IT TO STORE PRODCEDURE
             $sql   =" UPDATE admin_mst SET $setting_name = $setting_value
                        WHERE username = '$username'";
-            $result=mysql_query($sql);
-
+            $result   = $conn->query($sql);
+            if ($result->error) {
+                printf("Query failed: %s\n",$result->error);
+                exit();
+            }
         }
 
         if ($result) {
