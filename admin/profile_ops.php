@@ -23,7 +23,7 @@ require_once("./includes/functions.php"); //include file containing all function
 
             foreach (explode(",", $keyForUpdateForm) as $key) {
                 if ( array_key_exists($key, $_POST) ) {
-                    $_POST[$key] =  $conn->mysqli_real_escape_string(trim($_POST[$key]));
+                    $_POST[$key] =  $conn->real_escape_string(trim($_POST[$key]));
                 }
                 else {
                     $errorFlag = 1;
