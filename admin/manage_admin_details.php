@@ -47,9 +47,12 @@
         $username = $_SESSION['s_admin_username'];
         $sql      =  "SELECT * FROM admin_mst
                        WHERE USERNAME = '$username'";
-        $result   = mysql_query($sql) or die(mysql_error());
-        $num_rows = mysql_num_rows($result);
-        $arrres   = mysql_fetch_assoc($result);
+        $result   = $conn->query($sql);
+        if ($conn->error) {
+            printf("MySQL error encountered : %s",$conn->error);
+        }
+        $num_rows = $result->num_rows;
+        $arrres   = $result->fetch_assoc();
     ?>
     <? if ($num_rows != 0 && $username == 'admin')
     {?>
