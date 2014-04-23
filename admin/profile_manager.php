@@ -47,14 +47,15 @@
     //give result and create and id too if not
     $userName = $_SESSION['s_admin_username'];
     $sql = "CALL verify_and_insert_username('$userName')";
-    $result   = mysql_query($sql);
-
-    if ( $result ) {
-        $arrRes   = mysql_fetch_assoc($result);
+    $result   = $conn->query($sql);
+    // TO DO CHANGE IT TO MYSQLI
+    if ( ! $conn->error ) {
+        $arrRes   = $result->fetch_assoc();
     }
 ?>
 
-<?php if ($result) : ?>
+<?php if ( ! $conn->error ) : ?>
+
         <form class="form-horizontal" role="form" action="./profile_ops.php?action=update_user_profile" method="post">
             <div class="form-group">
                 <label for="display_name" class="col-xs-12 col-sm-12 col-md-2 col-lg-2 col-md-offset-1 col-lg-offset-1"> Display Name</label>
@@ -97,7 +98,7 @@
         </form>
 <? else : ?>
     <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
-        <div class="alert alert-danger alert-dismissable">Error encountered !!</div>
+        <div class="alert alert-danger alert-dismissable">Error encountered !! <?PHP echo " $conn->error";?> </div>
     </div>
 <? endif; ?>
 
