@@ -37,6 +37,6 @@
 
 <?php
 //closing the db connection
-mysql_close($conn) or die("error closing connection");
+$conn->close();
 ob_end_flush();
 ?>
