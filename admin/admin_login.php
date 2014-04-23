@@ -37,8 +37,8 @@ if  ( array_key_exists('action', $_GET) ) {
                        ";
 
             $result = $conn->query($sql);
-            if ($result->error) {
-                printf("Query failed: %s\n",$result->error);
+            if ($conn->error) {
+                printf("Query failed: %s\n",$conn->error);
                 exit();
             }
             $arrres = $result->fetch_assoc();
@@ -69,8 +69,8 @@ if  ( array_key_exists('action', $_GET) ) {
 
 
         $result = $conn->query($sql);
-        if ($result->error) {
-            printf("Query failed: %s\n",$result->error);
+        if ($conn->error) {
+            printf("Query failed: %s\n",$conn->error);
             exit();
         }
 
@@ -113,8 +113,8 @@ if  ( array_key_exists('action', $_GET) ) {
                      AND password ='$oldPassword'";
 
             $result   = $conn->query($sql);
-            if ($result->error) {
-                printf("Query failed: %s\n",$result->error);
+            if ($conn->error) {
+                printf("Query failed: %s\n",$conn->error);
                 exit();
             }
             $num_rows = $result->num_rows;
@@ -125,8 +125,8 @@ if  ( array_key_exists('action', $_GET) ) {
 
 
                 $result   = $conn->query($sql);
-                if ($result->error) {
-                    printf("Query failed: %s\n",$result->error);
+                if ($conn->error) {
+                    printf("Query failed: %s\n",$conn->error);
                     exit();
                 }
 
@@ -158,8 +158,8 @@ if  ( array_key_exists('action', $_GET) ) {
             $sql   =" UPDATE admin_mst SET $setting_name = $setting_value
                        WHERE username = '$username'";
             $result   = $conn->query($sql);
-            if ($result->error) {
-                printf("Query failed: %s\n",$result->error);
+            if ($conn->error) {
+                printf("Query failed: %s\n",$conn->error);
                 exit();
             }
         }
