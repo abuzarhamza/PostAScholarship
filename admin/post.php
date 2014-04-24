@@ -45,7 +45,11 @@
 <?
 
     $sql         = "CALL get_count_posttype('POST')";
-    $result      = mysql_query($sql);
+    $sql         = "select count(id) from post
+                     where post_type = 'POST'
+                       and root = 1
+                     order by creation_date";
+    $result      = $conn->query($sql);
     $pageHtml    = "";
     $postHtml    = "<tr>
                       <td>#</td>
@@ -56,12 +60,13 @@
                     </tr>\n";
     $errorFlag   = 0;
 
-    if ( mysql_error() ) {
+    if ( $conn->error ) {
         $errorFlag =1;
     }
 
-    $postCount    = mysql_result($result, 0);
-
+    $postCount    = $result->data_seek(0);
+    // $result->store_result();
+    // $result->free_result();
 
     if ( $postCount == 0 ) {
       $errorFlag = 2;
@@ -85,22 +90,23 @@
           $offset    =  $pageObj->current_page * $recLimit;
         }
         $sql         = "CALL get_postview_for_admin($offset,$recLimit,'POST')";
-        $result      = mysql_query($sql);
-        if ( mysql_error() ) {
+        $result      = $conn->query($sql);
+        if ( $conn->error ) {
             $errorFlag =1;
         }
         else {
-            echo "$offset,$recLimit \$result : $result \$postCount : $postCount \$row : $row";
-            while ( $row = mysql_fetch_array($result) ) {
+            //echo "$offset,$recLimit \$result : $result \$postCount : $postCount \$row : $row";
+            while ( $row = $result->fetch_assoc() ) {
                 $postHtml .= '<tr>
                               <td><a href="">'.$row['title'].'</a></td>
-                              <td><a href="">'.$row['author name'].'</a></td>
+                              <td><a href="">'.$row['author_name'].'</a></td>
                               <td>'.$row['creation_date'].'</td>
                                 <td> <span class="glyphicon glyphicon-bookmark"> <span class="badge"> '.$row['book_count'] .'</span>
                                    <span class=" fa fa-caret-square-o-right"> <span class="badge"> '. $row['view']."</span>
                               </td>
                             </tr>\n";
             }
+            echo $postHtml;
 
             //pagination
             $pageHtml .= '<div class="row">  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >';
@@ -113,7 +119,11 @@
               $pageHtml .= '<li><a href="'.$_PHP_SELF.'?page='.$pageObj->previous_page().'&rec=10'.'">&laquo;</a></li>';
             }
 
-            foreach ($pageObj->page_set_pages as $pageNumber) {
+            $pageObj->pages_in_set();
+            echo "current_page : " . $pageObj->current_page . "<br/>";
+            echo "last page :" . $pageObj->last_page() . "<br/>";
+
+            foreach ($pageObj->pages_in_set() as $pageNumber) {
 
                 if ( $pageNumber == $pageObj->current_page ) {
                 $pageHtml .= '<li class="active"><span>'.$pageNumber.'<span class="sr-only">(current)</span></span></li>';
@@ -127,7 +137,7 @@
                 $pageHtml .= '<li class="disabled">&raquo;</li>';
             }
             else {
-                $pageHtml .= '<li><a href="'.$_PHP_SELF.'?page='.$pageObj->next_page().'&rec=10'.'">&raquo;</a></li>';
+                $pageHtml .= '<li><a href="'. $_PHP_SELF.'?page='.$pageObj->next_page().'&rec=10'.'">&raquo;</a></li>';
             }
 
             $pageHtml .= '</div> </div>';
@@ -165,7 +175,7 @@ foreach ($obj->page_set_pages as $v) {
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
         <?
-            if ($RES == "sqlerror" || $errorFlag == 1 ) echo '<div class="alert alert-danger alert-dismissable">SQL error</div>';
+            if ($RES == "sqlerror" || $errorFlag == 1 ) echo '<div class="alert alert-danger alert-dismissable">SQL error : '. $conn->error .'</div>';
             if ($RES == "nopost" ||  $errorFlag == 2) echo '<div class="alert alert-danger alert-dismissable">No post can be found</div>';
         ?>
         </div>
