@@ -120,10 +120,8 @@
             }
 
             $pageObj->pages_in_set();
-            echo "current_page : " . $pageObj->current_page . "<br/>";
-            echo "last page :" . $pageObj->last_page() . "<br/>";
 
-            foreach ($pageObj->pages_in_set() as $pageNumber) {
+            foreach ($pageObj->page_set_pages as $pageNumber) {
 
                 if ( $pageNumber == $pageObj->current_page ) {
                 $pageHtml .= '<li class="active"><span>'.$pageNumber.'<span class="sr-only">(current)</span></span></li>';
