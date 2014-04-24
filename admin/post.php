@@ -99,14 +99,14 @@
             while ( $row = $result->fetch_assoc() ) {
                 $postHtml .= '<tr>
                               <td><a href="">'.$row['title'].'</a></td>
-                              <td><a href="">'.$row['author_name'].'</a></td>
+                              <td>'.$row['author_name'].'</td>
                               <td>'.$row['creation_date'].'</td>
                                 <td> <span class="glyphicon glyphicon-bookmark"> <span class="badge"> '.$row['book_count'] .'</span>
                                    <span class=" fa fa-caret-square-o-right"> <span class="badge"> '. $row['view']."</span>
                               </td>
                             </tr>\n";
             }
-            echo $postHtml;
+            //echo $postHtml;
 
             //pagination
             $pageHtml .= '<div class="row">  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >';
@@ -187,6 +187,7 @@ foreach ($obj->page_set_pages as $v) {
             <!-- Default panel contents -->
             <div class="panel-heading">Posts</div>
                 <table class="table table-hover table-striped">
+                    <?php echo "$postHtml";?>
                 </table>
             </div>
         </div>
