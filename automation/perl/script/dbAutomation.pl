@@ -148,10 +148,10 @@ sub InsertPrivilage {
 
 
 =head1
-function    : CreateTable
-description : create the table.
-in          : ref_hash
-out         : none
+function    : clearComment
+description : check the sql statement and clear the comment if present
+in          : scalar
+out         : scalar
 =cut
 sub clearComment {
     my ($query) = @_;
