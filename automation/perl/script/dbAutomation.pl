@@ -16,7 +16,7 @@ $CONFIG{'SQL_INSERT_USERPRIVI'} = '/scorePrevilage.sql';
 
 print "Creating database";
 CreateDatabase(\%CONFIG);
-print "Creating tables"
+print "Creating tables";
 CreateTable(\%CONFIG);
 print "insert privilege";
 InsertPrivilage(\%CONFIG);
