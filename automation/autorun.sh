@@ -1,4 +1,14 @@
 #/bin/bash
+###################################
+###################################
+###################################
+#PLZ RUN THE AUTO SCRIPT AS ROOT
+
+###################################
+#TO DO
+#1.log file integreation
+###################################
+
 
 help_message () {
   echo "Try '$0 --help' for more information."
@@ -59,6 +69,12 @@ if test "$1" = "--help"  ; then
   exit 1
 fi
 
+if [ "$(id -u)" != "0" ]; then
+  echo "This script must be run as root" 1>&2
+  exit 1
+fi
+
+
 BOX_ENV=$1
 XAMPP_ROOT=""
 
@@ -74,7 +90,9 @@ case $BOX_ENV in
    *) help_message ;;
 esac
 
-
+###############################
+#test for service status
+###############################
 #check the status of apache
 status_apache
 returnVal=$?
@@ -95,6 +113,11 @@ if [ $returnVal -eq 1 ] ; then
    exit 1
 fi
 
+
+###############################
+#pre-requsite module for perl
+###############################
+
 PERL_MODULE="DBI DBD::mysql Smart::Comments"
 #check the status of perl module
 for modName in $PERL_MODULE
@@ -109,7 +132,22 @@ do
   fi
 done
 
+###############################
+#table and proc fucntion creation
+###############################
+
 #running the db setup
 echo "Status : creating the table"
-#perl 2> /dev/null
+perl /opt/lampp/htdocs/PostAScholarship/automation/perl/script/dbAutomation.pl
 
+if [ $? -ne 0 ] ; then
+  echo "Error msg : Error occured for the \`dbAutomation.pl\` script"
+fi
+
+/opt/lampp/bin/mysql --user=root --password="" --database="postascholarship_db" < /opt/lampp/htdocs/PostAScholarship/mysql/plsql/admin/StoreProc.sql
+
+if [ $? -ne 0 ] ; then
+  echo "Error msg : Error occured for the \`dbAutomation.pl\` script"
+ else
+  echo "Status : creating the procedure and function"
+fi
