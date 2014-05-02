@@ -9,13 +9,14 @@ use Data::Dumper;
 my %CONFIG = ();
 
 
-$CONFIG{'SQL_DIRPATH'}      = '/opt/lampp/htdocs/PostAScholarship/mysql/';
+$CONFIG{'SQL_DIRPATH'}          = '/opt/lampp/htdocs/PostAScholarship/mysql/';
 $CONFIG{'SQL_CRDB_FILE'}        = 'createDB.sql';
 $CONFIG{'SQL_CRTABLE_FILE'}     = 'createTable.sql';
 $CONFIG{'SQL_INSERT_USERPRIVI'} = '/scorePrevilage.sql';
 
-
+print "Creating database";
 CreateDatabase(\%CONFIG);
+print "Creating tables"
 CreateTable(\%CONFIG);
 print "insert privilege";
 InsertPrivilage(\%CONFIG);
