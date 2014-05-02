@@ -1,5 +1,4 @@
 delimiter $$
-
 drop procedure if exists varify_username;
 create procedure varify_username(in_user_name varchar(30))
 begin
@@ -24,7 +23,7 @@ begin
     end if;
 end; $$
 
-
+drop procedure if exists verify_and_update_adminprofile;
 create procedure verify_and_update_adminprofile(in_user_name varchar(30), in_display_name varchar(30),
     in_first_name varchar(30),in_last_name varchar(30),in_about_me varchar(250),in_web varchar(250))
 begin
@@ -41,6 +40,7 @@ begin
     end if;
 end; $$
 
+drop procedure if exists get_count_posttype;
 create procedure get_count_posttype(in_post varchar(30))
 begin
     select count(id) from post
@@ -65,7 +65,7 @@ begin
     end if;
 end; $$
 
-
+drop procedure if exists insert_post_for_admin;
 create procedure insert_post_for_admin(in_user_name varchar(30) , in_title varchar(250), in_content text, in_html text,in_slug varchar(250) , in_post_type varchar(50))
     begin
         declare in_post_id int;
@@ -98,4 +98,7 @@ begin
        order by creation_date;
     return(out_count_pos);
 end; $$
---select tag_name from tag t where t.id in (select tag_id from tag_post_rel where post_id = p.id),
+
+delimiter ;
+
+----select tag_name from tag t where t.id in (select tag_id from tag_post_rel where post_id = p.id),
