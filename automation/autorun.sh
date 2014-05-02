@@ -7,6 +7,7 @@
 ###################################
 #TO DO
 #1.log file integreation
+#2.filter out the comments from the sql script
 ###################################
 
 
