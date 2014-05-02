@@ -1,6 +1,5 @@
 #/bin/bash
 
-
 help_message () {
   echo "Try '$0 --help' for more information."
   exit 1
@@ -40,24 +39,23 @@ testrun () {
 
 check_perlmodule() {
 
-  `perl -e 'use $1'`
-  if [ $? -eq 0] ; then
-   return 1
-  else
+  perl -e "use $1" 2>/dev/null
+  if [ $? -ne 0 ] ; then
     return 0
   fi
+  return 1
 }
 
 
-#checkning the number of argument
+#checking the number of argument
 if test $# -ne 1; then
  help_message
 fi
 
 
-#checkhing the provided argument
+#checking the provided argument
 if test "$1" = "--help"  ; then
-  echo "Usage : $0 devbox\nor : $0 prodbox"
+  echo "Usage : $0 devbox\n   or : $0 prodbox"
   exit 1
 fi
 
@@ -79,22 +77,39 @@ esac
 
 #check the status of apache
 status_apache
-if [ $? -eq 1 ] ; then
-   printf "apache is up\n"
+returnVal=$?
+if [ $returnVal -eq 1 ] ; then
+   printf "Status : apache is up\n"
   else
-   printf "apache server is not up\n"
+   printf "Status : apache server is not up\n"
    exit 1
 fi
 
 #check the status of mysql
 status_mysql
-if [ $? -eq 1 ] ; then
-   printf "mysql service is up\n"
+returnVal=$?
+if [ $returnVal -eq 1 ] ; then
+   printf "Status : mysql service is up\n"
   else
-   printf "mysql service is not up\n"
+   printf "Status : mysql service is not up\n"
    exit 1
 fi
 
+PERL_MODULE="DBI DBD::mysql Smart::Comments"
 #check the status of perl module
+for modName in $PERL_MODULE
+do
+  check_perlmodule $modName
+  returnVal=$?
+  if [ $returnVal -ne 1 ] ; then
+    echo "Error msg : perl module \`$modName\` is not installed ";
+    exit 1
+   else
+    echo "Status : perl module \`$modName\` is installed ";
+  fi
+done
 
+#running the db setup
+echo "Status : creating the table"
+#perl 2> /dev/null
 
