@@ -57,6 +57,7 @@ check_perlmodule() {
   return 1
 }
 
+echo "Staus : Process Id of the script : $$"
 
 #checking the number of argument
 if test $# -ne 1; then
@@ -145,7 +146,33 @@ if [ $? -ne 0 ] ; then
   echo "Error msg : Error occured for the \`dbAutomation.pl\` script"
 fi
 
-/opt/lampp/bin/mysql --user=root --password="" --database="postascholarship_db" < /opt/lampp/htdocs/PostAScholarship/mysql/plsql/admin/StoreProc.sql
+###############################
+#paring the sql file for comments
+###############################
+
+sqlFileName="/opt/lampp/htdocs/PostAScholarship/mysql/plsql/admin/StoreProc.sql"
+tempSqlFileName="/tmp/$$\.sql"
+
+if  [ ! -e $sqlFileName ] ; then
+  echo "Error msg :  file $sqlFileName not present"
+  exit 1
+if
+
+#creating a temo file
+while IFS= read -r line
+do
+  echo "$line" | grep -v "^--" >> $tempSqlFileName
+done < "sqlFileName"
+
+if [ ! -e $tempSqlFileName ] ; then
+  echo "Error : file $tempSqlFileName not present"
+  exit 1
+fi
+
+echo "Status : $tempSqlFileName has been created"
+
+
+/opt/lampp/bin/mysql --user=root --password="" --database="postascholarship_db" < $tempSqlFileName
 
 if [ $? -ne 0 ] ; then
   echo "Error msg : Error occured for the \`dbAutomation.pl\` script"
