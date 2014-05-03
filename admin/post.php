@@ -44,7 +44,8 @@
     </div>
 <?
 
-    $sql         = "CALL get_count_posttype('POST')";
+    //$sql         = "CALL get_count_posttype('POST')";
+    //SQL error : Commands out of sync; you can't run this command now
     $sql         = "select count(id) from post
                      where post_type = 'POST'
                        and root = 1
@@ -64,10 +65,15 @@
         $errorFlag =1;
     }
 
-    $postCount    = $result->data_seek(0);
-    // $result->store_result();
-    // $result->free_result();
+    $postCountArr    = $result->fetch_row();
+    $postCount       = $postCountArr[0];
 
+    //$result->close();
+    //$result->store_result();
+    //$result->free_result();
+    //$result->close();
+
+    echo "\$postCount : $postCount";
     if ( $postCount == 0 ) {
       $errorFlag = 2;
     }
@@ -97,14 +103,18 @@
         else {
             //echo "$offset,$recLimit \$result : $result \$postCount : $postCount \$row : $row";
             while ( $row = $result->fetch_assoc() ) {
-                $postHtml .= '<tr>
-                              <td><a href="">'.$row['title'].'</a></td>
-                              <td>'.$row['author_name'].'</td>
-                              <td>'.$row['creation_date'].'</td>
-                                <td> <span class="glyphicon glyphicon-bookmark"> <span class="badge"> '.$row['book_count'] .'</span>
-                                   <span class=" fa fa-caret-square-o-right"> <span class="badge"> '. $row['view']."</span>
-                              </td>
-                            </tr>\n";
+                if (isset($row)) {
+
+
+                    $postHtml .= '<tr>
+                                  <td><a href="">'.$row['title'].'</a></td>
+                                  <td>'.$row['author_name'].'</td>
+                                  <td>'.$row['creation_date'].'</td>
+                                    <td> <span class="glyphicon glyphicon-bookmark"> <span class="badge"> '.$row['book_count'] .'</span>
+                                       <span class=" fa fa-caret-square-o-right"> <span class="badge"> '. $row['view']."</span>
+                                  </td>
+                                </tr>\n";
+                }
             }
             //echo $postHtml;
 
@@ -173,8 +183,10 @@ foreach ($obj->page_set_pages as $v) {
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >
         <?
-            if ($RES == "sqlerror" || $errorFlag == 1 ) echo '<div class="alert alert-danger alert-dismissable">SQL error : '. $conn->error .'</div>';
-            if ($RES == "nopost" ||  $errorFlag == 2) echo '<div class="alert alert-danger alert-dismissable">No post can be found</div>';
+            if ( $RES == "sqlerror" ) echo '<div class="alert alert-danger alert-dismissable">SQL error : '. $conn->error .'</div>';
+            if ( $RES == "nopost" ) echo '<div class="alert alert-danger alert-dismissable">No post can be found</div>';
+            if ( $errorFlag == 1 ) echo '<div class="alert alert-danger alert-dismissable">SQL error : '. $conn->error .'</div>';
+            if ( $errorFlag == 2 ) echo '<div class="alert alert-danger alert-dismissable">No post can be found</div>';
         ?>
         </div>
     </div>
