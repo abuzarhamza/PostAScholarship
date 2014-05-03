@@ -36,4 +36,51 @@
         </div>
     </div>
 
+    <div class="row">
+
+        <form class="form" role="form" action="" method="post">
+            <div class="form-group">
+                <label for="post_title" class="col-xs-12 col-sm-12 col-md-1 col-lg-1 col-md-offset-1 col-lg-offset-1">title</label>
+                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                  <input type="text" class="form-control" id="post_title" name="post_title" placeholder="title">
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <!--<p> It sdfsdfnsofnn sndfnsdfn <br/> jsdfsndfnsonf <br/> lets me </p>-->
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
+                    <label for="post content">Post content</label>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
+                    <textarea class="form-control" id="post_content" name="post_content" rows="10" cols="40" maxlength="2000" placeholder="post input"></textarea>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                  <!--<p> It sdfsdfnsofnn sndfnsdfn <br/> jsdfsndfnsonf <br/> lets me </p>-->
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
+                    <label for="post content">Tags</label>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
+                    <textarea class="form-control" id="tags" name="tags" rows="1" cols="1" maxlength="500" placeholder="post input"></textarea>
+                </div>
+                <p>Suggestions: <span id="txtHint"></span></p> <!--tag suggstion-->
+                <!--<p> It sdfsdfnsofnn sndfnsdfn <br/> jsdfsndfnsonf <br/> lets me </p>-->
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-md-offset-1 col-lg-offset-1">
+                  <br/>
+                  <button type="submit" class="btn btn-success">Post It ! Share is caring</button>
+                </div>
+            </div>
+        </form>
+            <!-- content post_settings-->
+    </div>
+
     
