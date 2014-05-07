@@ -110,7 +110,7 @@ create table if not exists follow_tag (
 create table if not exists post (
     id int auto_increment not null primary key,
     author_id int not null,
-    title varchar(250),
+    title varchar(150),
     content text, --mark down content
     html text, --sanitize html content for display
     slug varchar(250),
