@@ -1,8 +1,10 @@
 <?php
     ob_start();
-    session_start();
-    require_once("./includes/config.php");
-    require_once("./includes/functions.php");
+    //session_start();
+    include("./_admin_start.php");
+    include("./_admin_initialize.php");
+    // require_once("./includes/config.php");
+    // require_once("./includes/functions.php");
     require_once("./classes/PHP-DataPagination/DataPageset.class.php");
 ?>
 
@@ -14,6 +16,7 @@
 <title><? echo SITE_URL_TITLE; ?> - Administrator</title>
 <?php include "_assets.php";?>
 </head>
+<body>
 <?php
     include("_top.php");
 ?>

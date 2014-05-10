@@ -1,8 +1,10 @@
 <?php
     ob_start();
-    session_start();
-    require_once("./includes/config.php");
-    require_once("./includes/functions.php");
+    //session_start();
+    // require_once("./includes/config.php");
+    // require_once("./includes/functions.php");
+    include("./_admin_start.php");
+    include("./_admin_initialize.php");
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +15,8 @@
 <title><? echo SITE_URL_TITLE; ?> - Administrator</title>
 <?php include "_assets.php";?>
 </head>
+
+<body>
 <?php
     include("_top.php");
 ?>
@@ -91,6 +95,12 @@
         </form>
             <!-- content post_settings-->
     </div>
+
+<?php
+    include("_footer.php");
+    include ("_assets_javascript.php");
+?>
+
 <script type="text/javascript">
     function help_message(inputField) {
         if ( inputField == "post_title" ) {
@@ -141,7 +151,6 @@
             }
         }
     }
-
-
-</script>
     
+</script>
+</body>    
