@@ -1,10 +1,13 @@
 <?php
+// ob_start();
+// session_start();
 ob_start();
-session_start();
+include("./_admin_start.php");
+include("./_admin_initialize.php");
 header("Cache-control: private");
 
-require_once("./includes/config.php"); //include configuration file
-require_once("./includes/functions.php"); //include file containing all functions
+// require_once("./includes/config.php"); //include configuration file
+// require_once("./includes/functions.php"); //include file containing all functions
 
 // $conn = mysql_connect(DB_SERVER,DB_SERVER_USERNAME,DB_SERVER_PASSWORD);
 // mysql_select_db(DB_DATABASE) or die("database not available");
