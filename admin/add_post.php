@@ -57,6 +57,7 @@
 
             <div class="form-group">
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
+                     <br/>
                     <label for="post content">Post content  <span id= "post_content_help" class="text-danger"></span> </label>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
@@ -70,7 +71,8 @@
 
             <div class="form-group">
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
-                    <label for="post content">Tags <span id= "tag_help" class="text-danger"> </label>
+                     <br/>
+                    <label for="tag">Tags <span id= "tag_help" class="text-danger"> </label>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
                     <textarea class="form-control" id="tag" name="tag" rows="1" cols="1" maxlength="500" placeholder="tags" onfocus="help_message('tag');" onblur="check_content_size('tag');"></textarea>
@@ -83,6 +85,45 @@
                 <!--<p> It sdfsdfnsofnn sndfnsdfn <br/> jsdfsndfnsonf <br/> lets me </p>-->
             </div>
 
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
+                    <br/>
+                    <label for="post_type">Post type</label>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
+                    <!-- Single button -->
+                    <select class="form-control" id="post_type" name="post_type" onclick="enable_scholarship('post_type');">
+                      <option value="scholarship">Scholarship</option>
+                      <option value="job">Job</option>
+                      <option value="question">Question</option>
+                      <option value="blog">Blog</option>
+                      <option value="social_bookmark">Social bookmark</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
+                    <br/>
+                    <label for="scholarship_type" >Scholarship type </label>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
+                    <!-- Single button -->
+                    <select class="form-control" id="scholarship_type" name="scholarship_type">
+                        <option value="select the option"> --options-- </option>
+                        <option value="phd">PhD Studentship </option>
+                        <option value="postdoc">Postdoctoral</option>
+                        <option value="fellowship">Fellowship</option>
+                        <option value="research_associate">Research Associate</option>
+                        <option value="senior_scientist">Senior Scientist</option>
+                        <option value="research_fellow">Research Fellow </option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+            </div>
+
 
             <div class="form-group">
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-md-offset-1 col-lg-offset-1">
@@ -92,6 +133,8 @@
 
                 </div>
             </div>
+
+
         </form>
             <!-- content post_settings-->
     </div>
@@ -152,5 +195,15 @@
         }
     }
     
+    function enable_scholarship(inputId) {
+        if ( document.getElementById(inputId).value == "scholarship" ) {
+            document.getElementById("scholarship_type").disabled=false;
+            document.getElementById("tentataive_expiry_date").disabled=false;
+        } else {
+            document.getElementById("scholarship_type").disabled=true;
+            document.getElementById("tentataive_expiry_date").disabled=true;
+        }
+    }
+
 </script>
 </body>    
