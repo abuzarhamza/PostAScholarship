@@ -93,13 +93,18 @@
 
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
                     <!-- Single button -->
-                    <select class="form-control" id="post_type" name="post_type" onclick="enable_scholarship('post_type');">
+                    <select class="form-control" id="post_type" name="post_type" onclick="enable_scholarship('post_type');" onfocus="help_message('post_type');">
                       <option value="scholarship">Scholarship</option>
                       <option value="job">Job</option>
                       <option value="question">Question</option>
                       <option value="blog">Blog</option>
                       <option value="social_bookmark">Social bookmark</option>
                     </select>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                    <!--filled by javascript for help msg-->
+                    <p id="post_type_help_msg" class="text-muted"></p>
                 </div>
             </div>
 
@@ -124,7 +129,6 @@
                 </div>
             </div>
 
-
             <div class="form-group">
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-md-offset-1 col-lg-offset-1">
                   <br/>
@@ -146,20 +150,30 @@
 
 <script type="text/javascript">
     function help_message(inputField) {
+
+        console.log(inputField + 'testing');
+
         if ( inputField == "post_title" ) {
             document.getElementById('post_title_help_msg').innerHTML   = 'Be specific.</br> * A good title can be very helpful for other.';
             document.getElementById('post_content_help_msg').innerHTML = "";
-            document.getElementById('tag_help_msg').innerHTML         = "";
+            document.getElementById('tag_help_msg').innerHTML          = "";
         }
         else if ( inputField == "post_content" ) {
             document.getElementById('post_title_help_msg').innerHTML   = "";
             document.getElementById('post_content_help_msg').innerHTML = 'How to Format? Check <br/> * editor support <a href="http://en.wikipedia.org/wiki/Markdown" target="_blank">markdown </a>.<br/>* put enter between paragraphs. <br/> * for linebreak add 2 spaces at end. <br/> * _italic_ or **bold** <br/> * quote by placing > at start of line.';
-            document.getElementById('tag_help_msg').innerHTML         = "";
+            document.getElementById('tag_help_msg').innerHTML          = "";
         }
         else if ( inputField == "tag"  ) {
             document.getElementById('post_title_help_msg').innerHTML   = "";
             document.getElementById('post_content_help_msg').innerHTML = "";
             document.getElementById('tag_help_msg').innerHTML         = 'A tag is a keyword or label that categorizes your post with other similar post.<br/>* max 5 tags.';
+        }
+        else if ( inputField ==  "post_type") {
+             console.log(inputField + 'testing2');
+            document.getElementById('post_title_help_msg').innerHTML   = "";
+            document.getElementById('post_content_help_msg').innerHTML = "";
+            document.getElementById('tag_help_msg').innerHTML          = "";
+            document.getElementById('post_type_help_msg').innerHTML    = 'Select the catagory.<br/>That will keep your post better organised';
         }
     }
 
