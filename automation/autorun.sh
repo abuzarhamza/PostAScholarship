@@ -6,8 +6,9 @@
 
 ###################################
 #TO DO
-#1.log file integreation
-#2.filter out the comments from the sql script
+#1.write script to create tag of db into xml for (ajax)
+#2.privilage script not running
+#3.log file integreation
 ###################################
 
 
@@ -57,7 +58,6 @@ check_perlmodule() {
   return 1
 }
 
-echo "Staus : Process Id of the script : $$"
 
 #checking the number of argument
 if test $# -ne 1; then
@@ -115,15 +115,14 @@ if [ $returnVal -eq 1 ] ; then
    exit 1
 fi
 
-
+echo "Staus : Process Id of the script : $$"
 ###############################
 #pre-requsite module for perl
 ###############################
 
 PERL_MODULE="DBI DBD::mysql Smart::Comments"
 #check the status of perl module
-for modName in $PERL_MODULE
-do
+for modName in $PERL_MODULE ; do
   check_perlmodule $modName
   returnVal=$?
   if [ $returnVal -ne 1 ] ; then
@@ -140,29 +139,33 @@ done
 
 #running the db setup
 echo "Status : creating the table"
-perl /opt/lampp/htdocs/PostAScholarship/automation/perl/script/dbAutomation.pl
+perl /opt/lampp/htdocs/PostAScholarship/automation/perl/script/dbAutomation.pl > /dev/null
 
 if [ $? -ne 0 ] ; then
   echo "Error msg : Error occured for the \`dbAutomation.pl\` script"
 fi
 
-###############################
-#paring the sql file for comments
-###############################
+# ###############################
+# #paring the sql file for comments
+# ###############################
 
 sqlFileName="/opt/lampp/htdocs/PostAScholarship/mysql/plsql/admin/StoreProc.sql"
-tempSqlFileName="/tmp/$$\.sql"
+tempSqlFileName="/tmp/$$.sql"
+
+# echo  "$tempSqlFileName"
 
 if  [ ! -e $sqlFileName ] ; then
   echo "Error msg :  file $sqlFileName not present"
   exit 1
-if
+fi #<-- this bug wasted my 1 hour
 
-#creating a temo file
-while IFS= read -r line
-do
+
+while IFS= read -r line ; do
+  echo "$line"
   echo "$line" | grep -v "^--" >> $tempSqlFileName
-done < "sqlFileName"
+done <"$sqlFileName"
+
+
 
 if [ ! -e $tempSqlFileName ] ; then
   echo "Error : file $tempSqlFileName not present"
@@ -172,10 +175,25 @@ fi
 echo "Status : $tempSqlFileName has been created"
 
 
-/opt/lampp/bin/mysql --user=root --password="" --database="postascholarship_db" < $tempSqlFileName
+/opt/lampp/bin/mysql --user=root --password="" --database="postascholarship_db" < $tempSqlFileName > /dev/null
 
 if [ $? -ne 0 ] ; then
-  echo "Error msg : Error occured for the \`dbAutomation.pl\` script"
+  echo "Error msg : Error occured for the \`$tempSqlFileName\` script"
  else
-  echo "Status : creating the procedure and function"
+  echo "Status : creating the procedure and function from $tempSqlFileName"
+fi
+
+tagSqlFileName="/opt/lampp/htdocs/PostAScholarship/mysql/Tag.sql"
+echo "Status : inserting tag into db"
+if [ ! -e $tagSqlFileName ] ; then
+  echo "Error : file cant be found \`$tagSqlFileName\`"
+  exit 1
+fi
+
+/opt/lampp/bin/mysql --user=root --password="" --database="postascholarship_db" < $tagSqlFileName
+
+if [ $? -ne 0 ] ; then
+    echo "Error msg : Error occured for the \`$tagSqlFileName\` script"
+  else
+    echo "Status : creating the procedure and function from $tagSqlFileName"
 fi
