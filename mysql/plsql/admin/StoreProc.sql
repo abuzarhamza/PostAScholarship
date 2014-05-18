@@ -86,7 +86,7 @@ create procedure insert_post_for_admin(in_user_name varchar(30) , in_title varch
         end if;
     end; $$
 
-
+drop function if exists get_count_posttype_for_admin;
 create function get_count_posttype_for_admin(in_post varchar(30))
   returns int
 begin
