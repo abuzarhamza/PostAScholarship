@@ -105,44 +105,36 @@ sub InsertPrivilage {
     my ($ref_hash) = @_;
     my %Config = %$ref_hash;
 
-    local $/ = ";";
+    local $/ = ";\n";
 
     my $dirpath  = $Config{'SQL_DIRPATH'};
     my $filePath = $dirpath . $Config{'SQL_INSERT_USERPRIVI'};
 
     my $dbh = DBI->connect('dbi:mysql:postascholarship_db;mysql_socket=/opt/lampp/var/mysql/mysql.sock','root','',{PrintError=>1, RaiseError=>1});
-  
+    $dbh->{AutoCommit} = 1;
 
     open(my $fh , "$filePath")  or die "cant open the file : $filePath :$!";
     while (<$fh>) {
         #chomp;
         #insert into privalege (score,small_des,description)
-    #values (20000,'trusted user','Expanded editing, deletion and undeletion privileges');
+        #values (20000,'trusted user','Expanded editing, deletion and undeletion privileges');
 
-        my $query = clearComment($_); print "\$query : $query\n";
-        my $score = 0;
+        my $query = clearComment($_);
+        print "\$query : $query\n";
         
-        foreach (split/\n/,$query) {
-            print "$_\n";
-            if ($_=~/.+values\((\d{1,}).+/) {
-                $score = $1;
-                print "\$score : $score\n";
-            }
-        }
-
-        if ($score != 0 ) {
-            my $sh =  $dbh->prepare("select score from privilege where score \= $score");
+        my $sh =  $dbh->prepare("$query");
+        $sh->execute();
+        print "check db\n";
+        if ($sh->rows == 0 )  {
+            $sh =  $dbh->prepare($query);
             $sh->execute();
-            if ($sh->rows == 0 )  {
-                $sh =  $dbh->prepare($query);
-                $sh->execute();
-            }
-            $sh->finish();       
         }
-        
-            
+        $sh->finish();
+        #$dbh->commit();
     }
     close $fh;
+
+    ##$dbh->rollback() if $@;
     $dbh->disconnect() or warn "Disconnection failed : $DBI::errstr";
 }
 
