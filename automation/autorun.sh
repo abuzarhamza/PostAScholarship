@@ -145,6 +145,7 @@ if [ $? -ne 0 ] ; then
   echo "Error msg : Error occured for the \`dbAutomation.pl\` script"
 fi
 
+
 # ###############################
 # #paring the sql file for comments
 # ###############################
