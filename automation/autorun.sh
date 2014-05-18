@@ -7,7 +7,7 @@
 ###################################
 #TO DO
 #1.write script to create tag of db into xml for (ajax)
-#2.privilage script not running
+#2.automation for insertion of badge
 #3.log file integreation
 ###################################
 
@@ -139,7 +139,7 @@ done
 
 #running the db setup
 echo "Status : creating the table"
-perl /opt/lampp/htdocs/PostAScholarship/automation/perl/script/dbAutomation.pl > /dev/null
+perl /opt/lampp/htdocs/PostAScholarship/automation/perl/script/dbAutomation.pl >/dev/null
 
 if [ $? -ne 0 ] ; then
   echo "Error msg : Error occured for the \`dbAutomation.pl\` script"
@@ -195,5 +195,5 @@ fi
 if [ $? -ne 0 ] ; then
     echo "Error msg : Error occured for the \`$tagSqlFileName\` script"
   else
-    echo "Status : creating the procedure and function from $tagSqlFileName"
+    echo "Status : inserted the tag from $tagSqlFileName"
 fi
