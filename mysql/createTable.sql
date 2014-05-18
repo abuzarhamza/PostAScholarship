@@ -204,8 +204,9 @@ create table if not exists flag_status (
 
 create table if not exists reset_password ( --table to send mail reset password
     id int not null auto_increment primary key,
-    key   varchar(250),
+    email_key   varchar(250),
     email varchar(250),
+    status_email int not null default 1,
     date_time datetime
 ) engine=innodb;
 
