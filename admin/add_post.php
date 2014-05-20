@@ -149,6 +149,38 @@
 ?>
 
 <script type="text/javascript">
+
+    function postMessage(msg) {
+
+        if (window.XMLHttpRequest == undefined) {
+            window.XMLHttpRequest = function () {
+                try {
+                    return new ActiveXObject("Msxml.XMLHTTP.6.0");
+                }
+                catch(e1) {
+                    try {
+                        return new ActiveXObject("Msxml.XMLHTTP.3.0");
+                    }
+                    catch(e2){
+                        throw new Error("XMLHTTP is not supported")
+                    }
+                }
+            }
+        } 
+
+        var request = new XMLHttpRequest();
+        request.open("POST","",false);
+        request.setRequestHeader("Content-Type","text/plain;charset=UTF-8");
+        request.send(msg);
+        request.onready.statechange = function() {
+            if (request.readyState == 4 && reqest.status == 200 ) {
+                var type = request.getResponseHeader(Content-Type);
+                //TO DO
+            }
+        }
+        request.send();
+    }
+
     function help_message(inputField) {
 
         console.log(inputField + 'testing');
@@ -157,16 +189,19 @@
             document.getElementById('post_title_help_msg').innerHTML   = 'Be specific.</br> * A good title can be very helpful for other.';
             document.getElementById('post_content_help_msg').innerHTML = "";
             document.getElementById('tag_help_msg').innerHTML          = "";
+            document.getElementById('post_type_help_msg').innerHTML    = "";
         }
         else if ( inputField == "post_content" ) {
             document.getElementById('post_title_help_msg').innerHTML   = "";
             document.getElementById('post_content_help_msg').innerHTML = 'How to Format? Check <br/> * editor support <a href="http://en.wikipedia.org/wiki/Markdown" target="_blank">markdown </a>.<br/>* put enter between paragraphs. <br/> * for linebreak add 2 spaces at end. <br/> * _italic_ or **bold** <br/> * quote by placing > at start of line.';
             document.getElementById('tag_help_msg').innerHTML          = "";
+            document.getElementById('post_type_help_msg').innerHTML    = "";
         }
         else if ( inputField == "tag"  ) {
             document.getElementById('post_title_help_msg').innerHTML   = "";
             document.getElementById('post_content_help_msg').innerHTML = "";
             document.getElementById('tag_help_msg').innerHTML         = 'A tag is a keyword or label that categorizes your post with other similar post.<br/>* max 5 tags.';
+            document.getElementById('post_type_help_msg').innerHTML    = "";
         }
         else if ( inputField ==  "post_type") {
              console.log(inputField + 'testing2');
