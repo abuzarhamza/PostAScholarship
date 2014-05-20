@@ -1,15 +1,39 @@
 delimiter $$
+
+---- to insert the tag
+drop procedure if exists validate_and_insert_tag;
+create procedure validate_and_instert_tag(in_tag_name varchar(250))
+begin
+    declare tag_flag int default 0;
+    select count(*) into tag_flag from tag where tag_name = in_tag_name ;
+    if ( tag_flag = 0 ) then
+      insert into tag (tag_name) values(in_tag_name);
+    end if;
+end; $$
+
+---- to insert the badge
+drop procedure if exists validate_and_insert_badge;
+create procedure validate_and_insert_badge(in_name varchar(50),in_description varchar(250),in_type varchar(30))
+  begin
+    declare badge_flag int default 0;
+    select count(*) into badge_flag from badge where name = in_name;
+    if ( badge_flag = 0 )  then
+      insert into badge(name,description,type) values(in_name,in_description,in_type);
+    end if;
+  end; $$
+
+---- to varify the user name
 drop procedure if exists varify_username;
 create procedure varify_username(in_user_name varchar(30))
 begin
-    if ( select id from user_profile where user_name = in_user_name ) then
+    if exists ( select id from user_profile where user_name = in_user_name ) then
         select 'exists';
     else
         select 'does not exists';
     end if;
 end; $$
 
-
+----
 drop procedure if exists verify_and_insert_username;
 create procedure verify_and_insert_username(in_user_name varchar(30) )
 begin
