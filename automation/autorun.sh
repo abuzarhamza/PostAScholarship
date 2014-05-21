@@ -184,17 +184,47 @@ if [ $? -ne 0 ] ; then
   echo "Status : creating the procedure and function from $tempSqlFileName"
 fi
 
-tagSqlFileName="/opt/lampp/htdocs/PostAScholarship/mysql/Tag.sql"
-echo "Status : inserting tag into db"
-if [ ! -e $tagSqlFileName ] ; then
-  echo "Error : file cant be found \`$tagSqlFileName\`"
-  exit 1
+
+
+if [0] ; then
+    tagSqlFileName="/opt/lampp/htdocs/PostAScholarship/mysql/Tag.sql"
+    echo "Status : inserting tag into db"
+    if [ ! -e $tagSqlFileName ] ; then
+      echo "Error : file cant be found \`$tagSqlFileName\`"
+      exit 1
+    fi
+    /opt/lampp/bin/mysql --user=root --password="" --database="postascholarship_db" < $tagSqlFileName
+    if [ $? -ne 0 ] ; then
+        echo "Error msg : Error occured for the \`$tagSqlFileName\` script"
+      else
+        echo "Status : inserted the tag from $tagSqlFileName"
+    fi
+  else
+
+    tagSqlFileName="/opt/lampp/htdocs/PostAScholarship/mysql/plsql/admin/insertCallTag.sql"
+    echo "Status : inserting tag into db"
+    if [ ! -e $tagSqlFileName ] ; then
+      echo "Error : file cant be found \`$tagSqlFileName\`"
+      exit 1
+    fi
+    /opt/lampp/bin/mysql --user=root --password="" --database="postascholarship_db" < $tagSqlFileName
+    if [ $? -ne 0 ] ; then
+        echo "Error msg : Error occured for the \`$tagSqlFileName\` script"
+      else
+        echo "Status : inserted the tag from $tagSqlFileName"
+    fi
+
 fi
 
-/opt/lampp/bin/mysql --user=root --password="" --database="postascholarship_db" < $tagSqlFileName
-
+badgeSqlFileName="/opt/lampp/htdocs/PostAScholarship/mysql/plsql/admin/insertCallBadge.sql"
+echo "Status : inserting tag into db"
+if [ ! -e $badgeSqlFileName ] ; then
+  echo "Error : file cant be found \`$badgeSqlFileName\`"
+  exit 1
+fi
+/opt/lampp/bin/mysql --user=root --password="" --database="postascholarship_db" < $badgeSqlFileName
 if [ $? -ne 0 ] ; then
-    echo "Error msg : Error occured for the \`$tagSqlFileName\` script"
+    echo "Error msg : Error occured for the \`$badgeSqlFileName\` script"
   else
-    echo "Status : inserted the tag from $tagSqlFileName"
+    echo "Status : inserted the tag from $badgeSqlFileName"
 fi
