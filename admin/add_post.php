@@ -75,7 +75,9 @@
                     <label for="tag">Tags <span id= "tag_help" class="text-danger"> </label>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
-                    <textarea class="form-control" id="tag" name="tag" rows="1" cols="1" maxlength="500" placeholder="tags" onfocus="help_message('tag');" onblur="check_content_size('tag');"></textarea>
+                    <textarea class="form-control" id="tag" name="tag" rows="1" cols="1" maxlength="500" placeholder="tags" onfocus="help_message('tag');" onblur="check_content_size('tag');" onkeyup="getSuggestionForTag('tag','http://localhost/PostAScholarship/admin/admin_ops.php','tag_suggestion');"></textarea>
+                    <span class="help-block" id="tag_suggestion"></span>
+
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                   <!--filled by javascript-->
@@ -150,8 +152,7 @@
 
 <script type="text/javascript">
 
-    function postMessage(msg) {
-
+    function getDataFromAjax(url,data) {
         if (window.XMLHttpRequest == undefined) {
             window.XMLHttpRequest = function () {
                 try {
@@ -169,21 +170,44 @@
         } 
 
         var request = new XMLHttpRequest();
-        request.open("POST","",false);
+        var inputUrl   = url + '?' + data;
+        console.log("t3 >>" + inputUrl);
+        request.open("GET",inputUrl);
         request.setRequestHeader("Content-Type","text/plain;charset=UTF-8");
-        request.send(msg);
-        request.onready.statechange = function() {
+        request.onreadystatechange = function() {
             if (request.readyState == 4 && reqest.status == 200 ) {
+                console.log("t4" + request.responseText);
                 var type = request.getResponseHeader(Content-Type);
-                //TO DO
+                if ( type.indexOf("xml") && request.responseXML) {
+                    callback(responseXML);
+                }
+                else if ( type == "application/json") {
+                    callback(JSON.parse(request.responseText));
+                } else {
+                    callback(request.responseText);
+                }
             }
         }
-        request.send();
+        request.send(null);
     }
 
+    function getSuggestionForTag(divId,url,suggestionId) {
+        if (document.getElementById(divId).length < 2) {
+            document.getElementById(suggestionId).innerHTML = "";
+            return;
+        }
+        console.log("t1");
+        console.log(document.getElementById(divId).value + " t2 " + url);
+        var data   = "action=get_tag&tag=" + document.getElementById(divId).value;
+        var txtObj = getDataFromAjax(url,data);
+        console.log("t5>>" + txtObj);
+        //var txt = getDataFromAjax(url,data);
+
+        //document.getElementById("divId").innerHTML= "Suggestion : "+ txt ;
+    }
     function help_message(inputField) {
 
-        console.log(inputField + 'testing');
+        //console.log(inputField + 'testing');
 
         if ( inputField == "post_title" ) {
             document.getElementById('post_title_help_msg').innerHTML   = 'Be specific.</br> * A good title can be very helpful for other.';
