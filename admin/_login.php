@@ -58,7 +58,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-md-offset-1 col-lg-offset-1">
-            <input type="password" class="form-control" placeholder="Password" id ="password" name="password" onchange="enableSignin('sign_in');" required>
+            <input type="password" class="form-control" placeholder="Password" id ="password" name="password" onkeyup="enableSignin('sign_in');" required>
         </div>
     </div>
     <div class="row">
