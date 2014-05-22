@@ -2,7 +2,7 @@ delimiter $$
 
 ---- to insert the tag
 drop procedure if exists validate_and_insert_tag;
-create procedure validate_and_instert_tag(in_tag_name varchar(250))
+create procedure validate_and_insert_tag(in_tag_name varchar(250))
 begin
     declare tag_flag int default 0;
     select count(*) into tag_flag from tag where tag_name = in_tag_name ;
