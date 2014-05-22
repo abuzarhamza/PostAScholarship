@@ -115,7 +115,7 @@ if [ $returnVal -eq 1 ] ; then
    exit 1
 fi
 
-echo "Staus : Process Id of the script : $$"
+echo "Status : Process Id of the script : $$"
 ###############################
 #pre-requsite module for perl
 ###############################
@@ -186,7 +186,7 @@ fi
 
 
 
-if [0] ; then
+if false ; then
     tagSqlFileName="/opt/lampp/htdocs/PostAScholarship/mysql/Tag.sql"
     echo "Status : inserting tag into db"
     if [ ! -e $tagSqlFileName ] ; then
