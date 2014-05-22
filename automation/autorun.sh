@@ -6,9 +6,7 @@
 
 ###################################
 #TO DO
-#1.write script to create tag of db into xml for (ajax)
-#2.automation for insertion of badge
-#3.log file integreation
+#1.log file integreation
 ###################################
 
 
