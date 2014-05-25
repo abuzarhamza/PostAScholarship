@@ -3,7 +3,7 @@ create table if not exists admin_mst (
     username varchar(30) not null,
     password varchar(250) not null,
     group_id  int default 0,
-    last_login datetime,
+    last_login datetime default now(),
     status tinyint default 0 -- user login staus 
 )  engine =innodb;
 
@@ -60,7 +60,7 @@ create table if not exists user_badge_rel (
     id int not null auto_increment primary key,
     badge_id int not null,
     user_id int not null,
-    date datetime,
+    date datetime default now(),
     foreign key (badge_id) references badge(id),
     foreign key (user_id) references user_profile(id)
 ) engine=innodb;
@@ -72,7 +72,7 @@ create table if not exists notes (
     note_target_id int not null,
     content text, --mark down
     html text, -- html for better display
-    date datetime,
+    date datetime default now(),
     unread tinyint default 0, -- 1 or 0
     type varchar(30), -- note type,
     foreign key (note_sender_id) references user_profile(id),
@@ -91,6 +91,15 @@ create table if not exists tag (
     child tinyint default 0,
     tag_enable tinyint default 0 -- user suggested tag to be ebabled.
 ) engine=innodb;
+
+create table if not exists tag_suggestion (
+    id int not null auto_increment primary key,
+    tag_name varchar(60) not null,
+    tag_description varchar(250),
+    post_id int null,
+    approved int default 0, 
+    date_time datetime default now()
+)engine=innodb;
 
 create table if not exists tag_alias (
     id int not null auto_increment primary key,
@@ -118,28 +127,35 @@ create table if not exists post (
     score int not null default 0,
     full_score int ,
     flag tinyint default 0, -- if he post is marked for spamming etc
-    creation_date datetime,
-    lastedit_date datetime,
+    creation_date datetime default now(),
+    lastedit_date datetime default now(),
     lastedit_user_id int,
     changed tinyint ,-- keep track of which post has changed
     post_type varchar(50),
-    root int not null default 1, --this will maintain the ancestor/descendant relationship between posts
-    parent int unique key references post(id),  --maintain parent child relation ship
     context text , -- use to display the context the post was created/edited 
     answer_count int not null default 0,
     book_count int not null default 0,
     accepted_answer tinyint , -- weather answer was accepted
-    url varchar(255), -- used for post with linkouts
+    url tinyint, -- used for post with linkouts
     sticky int not null default 0, -- stickiness of the post
+    enable_answer tinyint,
     foreign key (author_id) references user_profile(id),
     foreign key (lastedit_user_id) references user_profile(id)
 ) engine=innodb;
+
+create table if not exists post_hierarchy_rel (
+    id int auto_increment not null primary key, --Adjacency List Model http://www.sitepoint.com/hierarchical-data-database/
+    parent_post_id int null,
+    child_post_id int not null,
+    foreign key (child_post_id) references post(id)
+)  engine=innodb;
+
 
 create table if not exists tag_post_rel (
     id int not null auto_increment primary key,
     tag_id int not null,
     post_id int not null,
-    date datetime,
+    date datetime default now(),
     foreign key (tag_id) references tag(id),
     foreign key (post_id) references post(id)
 ) engine=innodb;
@@ -147,7 +163,7 @@ create table if not exists tag_post_rel (
 create table if not exists post_view (
     ip varchar(50),
     post_id int,
-    datetime datetime,
+    datetime datetime default now(),
     foreign key (post_id) references post(id),
     constraint ip_post_id primary key (ip,post_id)
 ) engine=innodb;
@@ -166,7 +182,7 @@ create table if not exists post_revision (
     diff text,
     context text,
     author_id int ,
-    datetime datetime,
+    datetime datetime default now(),
     foreign key (post_id) references post(id),
     foreign key (author_id) references user_profile(id)  
 ) engine=innodb;
@@ -175,7 +191,7 @@ create table if not exists vote (
     id int not null auto_increment primary key,
     post_id int ,
     type varchar(30),--type VOTE_UP|VOTE_DOWN|VOTE_ACCEPT|VOTE_BOOKMARK|VOTE_FLAG 
-    datetime datetime,
+    datetime datetime default now(),
     author_id int ,
     foreign key (post_id) references post(id),
     foreign key (author_id) references user_profile(id)
@@ -185,7 +201,7 @@ create table if not exists vote (
 create table if not exists flag (
     id int not null auto_increment primary key,
     post_id int , 
-    datetime datetime,
+    datetime datetime default now(),
     author_id int ,
     context text default null,
     foreign key (post_id) references post(id),
@@ -207,6 +223,6 @@ create table if not exists reset_password ( --table to send mail reset password
     email_key   varchar(250),
     email varchar(250),
     status_email int not null default 1,
-    date_time datetime
+    date_time datetime default now()
 ) engine=innodb;
 
