@@ -22,6 +22,76 @@ create procedure validate_and_insert_badge(in_name varchar(50),in_description va
     end if;
   end; $$
 
+---- add post
+drop procedure if exists add_post;
+create procedure add_post(  in_author_id int ,in_title varchar(150),in_content text , in_html text, in_slug varchar(250),in_post_type varchar(50) , in_url tinyint)  
+begin
+    declare post_id int default 0;
+
+    insert into post (title,content,html,slug,post_type,url,author_id)
+            values (in_title,in_content,in_html,in_slug,in_post_type,in_url);
+    select id into post_id from post where id = last_insert_id();
+
+    if ( in_post_type = 'SCHOLARSHIP' or in_post_type = 'JOB'
+        or in_post_type = 'QUESTION' or in_post_type = 'BLOG' or in_post_type = 'SOCIAL BOOKMARK' ) then
+        insert into post_hierarchy_rel (child_post_id) values (post_id);
+    end if;
+
+    select post_id;
+end;$$
+
+---- add tag for post
+drop procedure if exists add_del_tag_for_post;
+create procedure add_del_tag_for_post( in_post_id int, in_tag_name varchar(60), param varchar(20))
+begin
+    declare in_tag_id int default 0;
+    declare in_tag_flag int default 0;
+
+    select id into in_tag_id from tag where tag_name = in_tag_name;
+    select id into in_tag_flag from tag_post_rel where tag_id = in_tag_id and post_id = in_post_id;
+    if (param = 'ADD') then
+
+      if ( in_tag_id <> 0 and in_tag_flag = 0 ) then
+        insert into tag_post_rel (tag_id,post_id) values (in_tag_id,in_post_id);
+        select 1;
+      else
+        if ( in_tag_id = 0) then
+          insert into tag_suggestion (tag_name,post_id) values (in_tag_name,in_post_id);
+        end if;
+        select 0;
+      end if;
+
+    else
+
+      if (param = 'DEL') then
+        if ( in_tag_id <> 0 and in_tag_flag = 1 ) then
+          delete from tag_post_rel  where tag_id = in_tag_id and post_id = in_post_id;
+          select 1;
+        else
+          select 0;
+        end if;
+      end if;
+
+    end if;
+end;$$
+
+---- add comment
+drop procedure if exists add_comment;
+create procedure add_comment(  in_author_id int ,in_title varchar(150),in_content text , in_html text, in_slug varchar(250),in_post_type varchar(50) , in_url tinyint , in_partent_post_id int)  
+begin
+    declare in_post_id int default 0;
+
+    insert into post (title,content,html,slug,post_type,url,author_id) 
+            values (in_title,in_content,in_html,in_slug,in_post_type,in_url);
+    select id into in_post_id from post where id = last_insert_id();
+
+    if ( in_post_type = 'COMMENT') then
+        insert into post_hierarchy_rel (parent_post_id,child_post_id) values (in_partent_post_id,in_post_id);
+    end if;
+
+    select in_post_id;
+end;$$
+
 ---- to varify the user name
 drop procedure if exists varify_username;
 create procedure varify_username(in_user_name varchar(30))
