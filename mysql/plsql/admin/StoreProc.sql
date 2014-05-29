@@ -22,7 +22,7 @@ create procedure validate_and_insert_badge(in_name varchar(50),in_description va
     end if;
   end; $$
 
----- add post
+---- add post with author id
 drop procedure if exists add_post;
 create procedure add_post(  in_author_id int ,in_title varchar(150),in_content text , in_html text, in_slug varchar(250),in_post_type varchar(50) , in_url tinyint)  
 begin
@@ -38,6 +38,30 @@ begin
     end if;
 
     select post_id;
+end;$$
+
+---- add post with user name
+drop procedure if exists add_post_with_name;
+create procedure add_post_with_name(  in_author_name int ,in_title varchar(150),in_content text , in_html text, in_slug varchar(250),in_post_type varchar(50) , in_url tinyint)  
+begin
+    declare post_id int default 0;
+    declare author_id int default 0;
+
+    select id into author_id from user_profile where user_name = in_author_name;
+    if ( author_id ) then
+      insert into post (title,content,html,slug,post_type,url,author_id)
+              values (in_title,in_content,in_html,in_slug,in_post_type,in_url);
+      select id into post_id from post where id = last_insert_id();
+
+      if ( in_post_type = 'SCHOLARSHIP' or in_post_type = 'JOB'
+          or in_post_type = 'QUESTION' or in_post_type = 'BLOG' or in_post_type = 'SOCIAL BOOKMARK' ) then
+          insert into post_hierarchy_rel (child_post_id) values (post_id);
+      end if;
+      select post_id;
+    else
+      select 0;
+    end if;
+
 end;$$
 
 ---- add tag for post
