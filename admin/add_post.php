@@ -5,6 +5,7 @@
     // require_once("./includes/functions.php");
     include("./_admin_start.php");
     include("./_admin_initialize.php");
+    #need to create error handle
 ?>
 
 <!DOCTYPE html>
@@ -40,9 +41,57 @@
         </div>
     </div>
 
+    <!--error flag-->
+    <?php if ($RES=="post_error1") : ?>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
+                <div class="alert alert-danger">
+                    <a class="close" data-dismiss="alert">×</a>
+                    <strong>Error </strong> Exceed the limit of character in title, has more than 150 or less the 15 character.
+                </div>
+            </div> <!--close col-->
+        </div> <!--close row-->
+    <?php elseif ($RES=="post_error2") : ?>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
+                <div class="alert alert-danger">
+                    <a class="close" data-dismiss="alert">×</a>
+                    <strong>Error </strong> Exceed the limit of character in post, has more than 150 or less the 15 character.
+                </div>
+            </div> <!--close col-->
+        </div> <!--close row-->
+    <?php elseif ($RES=="post_error3") : ?>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
+                <div class="alert alert-danger">
+                    <a class="close" data-dismiss="alert">×</a>
+                    <strong>Error </strong> Exceed the limit of character in tag, has more than 250 character.
+                </div>
+            </div> <!--close col-->
+        </div> <!--close row-->
+    <?php elseif ($RES=="post_error4") : ?>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
+                <div class="alert alert-danger">
+                    <a class="close" data-dismiss="alert">×</a>
+                    <strong>Error </strong> Incorrect post type.
+                </div>
+            </div> <!--close col-->
+        </div> <!--close row-->
+    <?php elseif ($RES=="post_error5") : ?>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
+                <div class="alert alert-danger">
+                    <a class="close" data-dismiss="alert">×</a>
+                    <strong>Error </strong> Incorrect scholarship type.
+                </div>
+            </div> <!--close col-->
+        </div> <!--close row-->
+    <?php endif; ?>
+
     <div class="row">
 
-        <form class="form" role="form" action="" method="post">
+        <form class="form" role="form" action="./admin_ops.php?action=add_post" method="post">
             <div class="form-group">
 
                 <label for="post_title" class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1"> Title <span id= "post_title_help" class="text-danger"></span> </label>
@@ -134,7 +183,7 @@
             <div class="form-group">
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-md-offset-1 col-lg-offset-1">
                   <br/>
-                  <button type="submit" class="btn btn-success"> <i class="fa fa-sign-in"></i> Post It </button>
+                  <button type="submit" class="btn btn-success" action="./admin_ops.php?action=add_post"> <i class="fa fa-sign-in"></i> Post It </button>
                   <button type="button" class="btn btn-info"> <i class="fa fa-external-link-square"></i>  Preview the post</button>
 
                 </div>
