@@ -50,54 +50,43 @@ begin
     select id into author_id from user_profile where user_name = in_author_name;
     if ( author_id ) then
       insert into post (title,content,html,slug,post_type,url,author_id)
-              values (in_title,in_content,in_html,in_slug,in_post_type,in_url);
+              values (in_title,in_content,in_html,in_slug,in_post_type,in_url,author_id);
       select id into post_id from post where id = last_insert_id();
-
       if ( in_post_type = 'SCHOLARSHIP' or in_post_type = 'JOB'
           or in_post_type = 'QUESTION' or in_post_type = 'BLOG' or in_post_type = 'SOCIAL BOOKMARK' ) then
           insert into post_hierarchy_rel (child_post_id) values (post_id);
       end if;
       select post_id;
     else
-      select 0;
+      select 0 as 'post_id';
     end if;
 
 end;$$
+
+
 
 ---- add tag for post
-drop procedure if exists add_del_tag_for_post;
-create procedure add_del_tag_for_post( in_post_id int, in_tag_name varchar(60), param varchar(20))
+---- add scholarship_tag function
+drop procedure if exists add_tag_for_post;
+create procedure add_tag_for_post( in_post_id int, in_tag_name varchar(60))
 begin
-    declare in_tag_id int default 0;
-    declare in_tag_flag int default 0;
+    declare in_tag_id int default null;
+    declare in_rel_flag int default null;
 
     select id into in_tag_id from tag where tag_name = in_tag_name;
-    select id into in_tag_flag from tag_post_rel where tag_id = in_tag_id and post_id = in_post_id;
-    if (param = 'ADD') then
+    select id into in_rel_flag from tag_post_rel where tag_id = in_tag_id and post_id = in_post_id;
 
-      if ( in_tag_id <> 0 and in_tag_flag = 0 ) then
+      if ( (in_tag_id is not null) and (in_rel_flag is null) ) then
         insert into tag_post_rel (tag_id,post_id) values (in_tag_id,in_post_id);
-        select 1;
+        select 1 as 'tag_flag';
       else
-        if ( in_tag_id = 0) then
+        if ( in_tag_id is null) then
           insert into tag_suggestion (tag_name,post_id) values (in_tag_name,in_post_id);
         end if;
-        select 0;
+        select 0 as 'tag_flag';
       end if;
-
-    else
-
-      if (param = 'DEL') then
-        if ( in_tag_id <> 0 and in_tag_flag = 1 ) then
-          delete from tag_post_rel  where tag_id = in_tag_id and post_id = in_post_id;
-          select 1;
-        else
-          select 0;
-        end if;
-      end if;
-
-    end if;
 end;$$
+
 
 ---- add comment
 drop procedure if exists add_comment;
