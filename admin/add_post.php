@@ -44,7 +44,7 @@
     <!--error flag-->
     <?php if ($RES=="post_error1") : ?>
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
+            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
                 <div class="alert alert-danger">
                     <a class="close" data-dismiss="alert">×</a>
                     <strong>Error </strong> Exceed the limit of character in title, has more than 150 or less the 15 character.
@@ -53,16 +53,16 @@
         </div> <!--close row-->
     <?php elseif ($RES=="post_error2") : ?>
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
+            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
                 <div class="alert alert-danger">
                     <a class="close" data-dismiss="alert">×</a>
-                    <strong>Error </strong> Exceed the limit of character in post, has more than 150 or less the 15 character.
+                    <strong>Error </strong> Exceed the limit of character in post, has more than 1500 character or have no content.
                 </div>
             </div> <!--close col-->
         </div> <!--close row-->
     <?php elseif ($RES=="post_error3") : ?>
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
+            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
                 <div class="alert alert-danger">
                     <a class="close" data-dismiss="alert">×</a>
                     <strong>Error </strong> Exceed the limit of character in tag, has more than 250 character.
@@ -71,7 +71,7 @@
         </div> <!--close row-->
     <?php elseif ($RES=="post_error4") : ?>
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
+            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
                 <div class="alert alert-danger">
                     <a class="close" data-dismiss="alert">×</a>
                     <strong>Error </strong> Incorrect post type.
@@ -80,15 +80,23 @@
         </div> <!--close row-->
     <?php elseif ($RES=="post_error5") : ?>
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-11 col-lg-11 col-md-offset-1 col-lg-offset-1">
+            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
                 <div class="alert alert-danger">
                     <a class="close" data-dismiss="alert">×</a>
                     <strong>Error </strong> Incorrect scholarship type.
                 </div>
             </div> <!--close col-->
         </div> <!--close row-->
+     <?php elseif ($RES=="post_success") : ?>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1">
+                <div class="alert alert-success">
+                    <a class="close" data-dismiss="alert">×</a>
+                    <strong>Success! </strong> post has been added.
+                </div>
+            </div> <!--close col-->
+        </div> <!--close row-->
     <?php endif; ?>
-
     <div class="row">
 
         <form class="form" role="form" action="./admin_ops.php?action=add_post" method="post">
@@ -96,7 +104,7 @@
 
                 <label for="post_title" class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1"> Title <span id= "post_title_help" class="text-danger"></span> </label>
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
-                  <input type="text" class="form-control" id="post_title" name="post_title" placeholder="title" onfocus="help_message('post_title');" onblur="check_content_size('post_title');">
+                  <input type="text" class="form-control" id="post_title" name="post_title" placeholder="title" onfocus="help_message('post_title');" onblur="check_content_size('post_title');" value="<?php if (isset($_SESSION['post_title'])) echo htmlspecialchars($_SESSION['post_title']);?>">
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                     <!--filled by javascript for help msg-->
@@ -110,7 +118,7 @@
                     <label for="post content">Post content  <span id= "post_content_help" class="text-danger"></span> </label>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
-                    <textarea class="form-control" id="post_content" name="post_content" rows="10" cols="40" maxlength="2000" placeholder="post" onfocus="help_message('post_content');" onblur="check_content_size('post_content');"></textarea>
+                    <textarea class="form-control" id="post_content" name="post_content" rows="10" cols="40" maxlength="2000" placeholder="post" onfocus="help_message('post_content');" onblur="check_content_size('post_content');"> <?php if (isset($_SESSION['post_content'])) echo htmlspecialchars($_SESSION['post_content']);?> </textarea>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                   <!--filled by javascript for help msg-->
@@ -124,7 +132,7 @@
                     <label for="tag">Tags <span id= "tag_help" class="text-danger"> </label>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
-                    <textarea class="form-control" id="tag" name="tag" rows="1" cols="1" maxlength="500" placeholder="tags" onfocus="help_message('tag');" onblur="check_content_size('tag');" onkeyup="getSuggestionForTag('tag','http://localhost/PostAScholarship/admin/admin_ops.php','tag_suggestion');"></textarea>
+                    <textarea class="form-control" id="tag" name="tag" rows="1" cols="1" maxlength="500" placeholder="tags" onfocus="help_message('tag');" onblur="check_content_size('tag');" onkeyup="getSuggestionForTag('tag','http://localhost/PostAScholarship/admin/admin_ops.php','tag_suggestion');"> <?php if (isset($_SESSION['tag'])) echo htmlspecialchars($_SESSION['tag']);?> </textarea>
                     <span class="help-block" id="tag_suggestion"></span>
 
                 </div>
@@ -328,4 +336,4 @@
     }
 
 </script>
-</body>    
+</body>
