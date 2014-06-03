@@ -96,7 +96,29 @@
                 </div>
             </div> <!--close col-->
         </div> <!--close row-->
+        <?php
+            if ( isset($_SESSION['post_title']) ) {
+
+                unset($_SESSION['post_title']);
+                unset($_SESSION['post_content']);
+                unset($_SESSION['tag']);
+                unset($_SESSION['post_type']);
+                unset($_SESSION['scholarship_type']);
+            }
+        ?>
+    <?php else : ?>
+        <?php
+            if ( isset($_SESSION['post_title']) ) {
+
+                unset($_SESSION['post_title']);
+                unset($_SESSION['post_content']);
+                unset($_SESSION['tag']);
+                unset($_SESSION['post_type']);
+                unset($_SESSION['scholarship_type']);
+            }
+        ?>
     <?php endif; ?>
+
     <div class="row">
 
         <form class="form" role="form" action="./admin_ops.php?action=add_post" method="post">
