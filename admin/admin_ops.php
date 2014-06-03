@@ -86,9 +86,11 @@
             }
 
             #saving the input by the user will be used for regeneration of the form
-            $_SESSION['post_title']   = $_POST['post_title'];
-            $_SESSION['post_content'] = $_POST['post_content'];
-            $_SESSION['tag']          = $_POST['tag'];
+            $_SESSION['post_title']       = $_POST['post_title'];
+            $_SESSION['post_content']     = $_POST['post_content'];
+            $_SESSION['tag']              = $_POST['tag'];
+            $_SESSION['post_type']        = $_POST['post_type'];
+            $_SESSION['scholarship_type'] = $_POST['scholarship_type'];
 
             switch ($errorCode){
                 case 1 :
