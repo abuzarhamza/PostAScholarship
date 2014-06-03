@@ -9,15 +9,6 @@
 ?>
 
 <?php
-    function validate_size($content,$max,$min=0) {
-        if (strlen($content) <= $max
-            && strlen($content) > $min
-        ) {
-            return 1;
-        }
-
-        return 0;
-    }
 
     function clean($string) {
         $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
@@ -64,25 +55,20 @@
             foreach ($_POST as $k => $v) {
                 //echo "\$a[$k] => $v.\n";
                 if ( $errorCode > 0 ) {
-                   continue;
+                   break;
                 }
                 switch ($k) {
+
                     case "post_title" :
-                        if ( validate_size($v,150,15) ) {
-                            $errorCode  =1;
-                        }
+                        $errorCode = (strlen($v) > 150 || strlen($v) < 15 ? 1 : 0);
                         break;
 
                     case "post_content" :
-                        if ( validate_size($v,1500) ) {
-                            $errorCode  =2;
-                        }
+                        $errorCode = (strlen($v) > 1500 || strlen($v) < 1 ? 2 : 0);
                         break;
 
                     case "tag" :
-                        if ( validate_size($v,250) ) {
-                            $errorCode  =3;
-                        }
+                        $errorCode = (strlen($v) > 250 ? 3 : 0);
                         break;
 
                     case "post_type":
@@ -99,6 +85,11 @@
                 }
             }
 
+            #saving the input by the user will be used for regeneration of the form
+            $_SESSION['post_title']   = $_POST['post_title'];
+            $_SESSION['post_content'] = $_POST['post_content'];
+            $_SESSION['tag']          = $_POST['tag'];
+
             switch ($errorCode){
                 case 1 :
                     $errMsg = "Exceed the limit of character in title, has more than 150 or less the 15 character.";
@@ -106,7 +97,7 @@
                     break;
 
                 case 2 :
-                    $errMsg = "Exceed the limit of character in post, has more than 150 or less the 15 character.";
+                    $errMsg = "Exceed the limit of character in post, has more than 1500 character.";
                     $RES = "post_error2";
                     break;
 
@@ -127,8 +118,8 @@
             }
 
             if ($errorCode) {
-                // header("Location: add_post.php?res=$RES");
-                // exit;
+                header("Location: add_post.php?res=$RES");
+                exit;
             }
             #parse_markdown
             $Parsedown = new Parsedown();
@@ -171,7 +162,7 @@
 
                     do {
                         if ($res = $conn->store_result()) {
-                            var_dump($res->fetch_assoc());
+                            //var_dump($res->fetch_assoc());
                             $res->free();
                         }
                     } while ($conn->more_results() && $conn->next_result());
@@ -185,6 +176,12 @@
 
             if ( $errorCode ) {
                 $RES = "db_error1";
+                header("Location: add_post.php?res=$RES");
+                exit;
+            }
+            else {
+                header("Location: add_post.php?res=post_success");
+                exit;
             }
 
 
