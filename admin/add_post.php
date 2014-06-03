@@ -118,7 +118,7 @@
                     <label for="post content">Post content  <span id= "post_content_help" class="text-danger"></span> </label>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
-                    <textarea class="form-control" id="post_content" name="post_content" rows="10" cols="40" maxlength="2000" placeholder="post" onfocus="help_message('post_content');" onblur="check_content_size('post_content');"> <?php if (isset($_SESSION['post_content'])) echo htmlspecialchars($_SESSION['post_content']);?> </textarea>
+                    <textarea class="form-control" id="post_content" name="post_content" rows="10" cols="40" maxlength="2000" placeholder="post" onfocus="help_message('post_content');" onblur="check_content_size('post_content');"><?php if (isset($_SESSION['post_content'])) echo htmlspecialchars($_SESSION['post_content']);?></textarea>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                   <!--filled by javascript for help msg-->
@@ -132,7 +132,7 @@
                     <label for="tag">Tags <span id= "tag_help" class="text-danger"> </label>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
-                    <textarea class="form-control" id="tag" name="tag" rows="1" cols="1" maxlength="500" placeholder="tags" onfocus="help_message('tag');" onblur="check_content_size('tag');" onkeyup="getSuggestionForTag('tag','http://localhost/PostAScholarship/admin/admin_ops.php','tag_suggestion');"> <?php if (isset($_SESSION['tag'])) echo htmlspecialchars($_SESSION['tag']);?> </textarea>
+                    <textarea class="form-control" id="tag" name="tag" rows="1" cols="1" maxlength="500" placeholder="tags" onfocus="help_message('tag');" onblur="check_content_size('tag');" onkeyup="getSuggestionForTag('tag','http://localhost/PostAScholarship/admin/admin_ops.php','tag_suggestion');"><?php if (isset($_SESSION['tag'])) echo htmlspecialchars($_SESSION['tag']);?></textarea>
                     <span class="help-block" id="tag_suggestion"></span>
 
                 </div>
@@ -153,11 +153,28 @@
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
                     <!-- Single button -->
                     <select class="form-control" id="post_type" name="post_type" onclick="enable_scholarship('post_type');" onfocus="help_message('post_type');">
-                      <option value="scholarship">Scholarship</option>
-                      <option value="job">Job</option>
+
+                     <?php
+                        if (isset($_SESSION['post_type'])) {
+                            echo '<option value="' . $_SESSION['post_type'] . '">'. ucfirst($_SESSION['post_type']) .'</option>' ;
+                        }
+                        foreach (array('scholarship' , 'job' , 'question' , 'blog' , 'social_bookmark') as $v) {
+
+                            if (isset($_SESSION['post_type'])) {
+                                if ( $_SESSION['post_type'] != $v) {
+                                    echo '<option value="' . $v . '">'. ucfirst($v) .'</option>' ;
+                                }
+                            }
+                            else {
+                                echo '<option value="' . $v . '">'. ucfirst($v) .'</option>' ;
+                            }
+                        }
+                     ?>
+
+                      <!--<option value="job">Job</option>
                       <option value="question">Question</option>
                       <option value="blog">Blog</option>
-                      <option value="social_bookmark">Social bookmark</option>
+                      <option value="social_bookmark">Social bookmark</option>-->
                     </select>
                 </div>
 
@@ -176,14 +193,29 @@
                 <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-md-offset-1 col-lg-offset-1">
                     <!-- Single button -->
                     <select class="form-control" id="scholarship_type" name="scholarship_type">
-                        <option value="select the option"> --options-- </option>
+                        <?php
+                            if ( isset($_SESSION['scholarship_type']) ) {
+                                echo '<option value="' . $_SESSION['scholarship_type'] . '">'. ucfirst($_SESSION['scholarship_type']) .'</option>' ;
+                            }
+                            foreach ( array('option' , 'phd' , 'postdoc','fellowship','research_associate' , 'senior_scientist' , 'research_fellow' , 'other')  as $v ) {
+                                if ( isset($_SESSION['scholarship_type']) ) {
+                                    if ( $_SESSION['scholarship_type'] != $v ) {
+                                        echo '<option value="' . $v . '">'. ucfirst($v) .'</option>' ;
+                                    }
+                                }
+                                else {
+                                    echo '<option value="' . $v . '">'. ucfirst($v) .'</option>' ;
+                                }
+                            }
+                        ?>
+                        <!--<option value="option"> --options-- </option>
                         <option value="phd">PhD Studentship </option>
                         <option value="postdoc">Postdoctoral</option>
                         <option value="fellowship">Fellowship</option>
                         <option value="research_associate">Research Associate</option>
                         <option value="senior_scientist">Senior Scientist</option>
                         <option value="research_fellow">Research Fellow </option>
-                        <option value="other">Other</option>
+                        <option value="other">Other</option>-->
                     </select>
                 </div>
             </div>
