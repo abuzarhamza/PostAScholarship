@@ -100,8 +100,6 @@
             }
         }
 
-        echo  "current page" . $pageObj->current_page  ."  testing : \$postCount : " . $postCount . " \$offset" . $offset . " :  \$recLimit : " .  $recLimit;
-
         if (! $conn->multi_query("CALL get_postview_for_admin($offset,$recLimit)")
         ) {
             $errorFlag =1;
@@ -140,8 +138,6 @@
             $pageObj->pages_in_set();
 
             foreach ($pageObj->page_set_pages as $pageNumber ) {
-
-                echo "\$pageNumber : ".$pageNumber;
 
                 if ( $pageNumber == $pageObj->current_page ) {
                 $pageHtml .= '<li class="active"><span>'.$pageNumber.'<span class="sr-only">(current)</span></span></li>';
