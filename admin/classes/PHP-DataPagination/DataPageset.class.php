@@ -92,7 +92,7 @@
         }
 
         public function next_page() {
-            if ( $this->current_page > 1
+            if ( $this->current_page >= 1
                 && $this->current_page < $this->last_page()
             ) {
                 return $this->current_page + 1;
