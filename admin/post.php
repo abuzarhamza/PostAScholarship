@@ -45,42 +45,41 @@
             </div>
         </div>
     </div>
+
 <?
 
-    //$sql         = "CALL get_count_posttype('POST')";
-    //SQL error : Commands out of sync; you can't run this command now
-    $sql         = "select count(id) from post
-                     where post_type = 'POST'
-                       and root = 1
-                     order by creation_date";
-    $result      = $conn->query($sql);
     $pageHtml    = "";
+    //<td>#</td>
     $postHtml    = "<tr>
-                      <td>#</td>
                       <td>title</td>
                       <td>author name</td>
                       <td>creation date</td>
-                      <td>view,bookmark stats</td>
+                      <td>bookmark </td>
+                      <td>view </td>
                     </tr>\n";
     $errorFlag   = 0;
 
+    //$sql         = "CALL get_count_posttype('POST')";
+    //SQL error : Commands out of sync; you can't run this command now
+    $sql         = "select count(id) as count from post
+                     where root = 1
+                     order by creation_date";
+    $result      = $conn->query($sql);
     if ( $conn->error ) {
         $errorFlag =1;
     }
+    else {
+        $postCountArr    = $result->fetch_object();
+        $postCount       = $postCountArr->count;
+        $result->close();
+    }
 
-    $postCountArr    = $result->fetch_row();
-    $postCount       = $postCountArr[0];
 
-    //$result->close();
-    //$result->store_result();
-    //$result->free_result();
-    //$result->close();
-
-    echo "\$postCount : $postCount";
     if ( $postCount == 0 ) {
       $errorFlag = 2;
     }
     else {
+
         $recLimit     = 10;
         $currentPage  = 1;
 
@@ -98,49 +97,54 @@
         else {
           $offset    =  $pageObj->current_page * $recLimit;
         }
-        $sql         = "CALL get_postview_for_admin($offset,$recLimit,'POST')";
-        $result      = $conn->query($sql);
-        if ( $conn->error ) {
+
+        echo  "testing : \$postCount : " . $postCount . " \$offset" . $offset . " :  \$recLimit" .  $recLimit;
+        if (! $conn->multi_query("CALL get_postview_for_admin($offset,$recLimit)")
+        ) {
             $errorFlag =1;
         }
         else {
-            //echo "$offset,$recLimit \$result : $result \$postCount : $postCount \$row : $row";
-            while ( $row = $result->fetch_assoc() ) {
-                if (isset($row)) {
+            do {
+                if ( $res = $conn->store_result() ) {
 
-
-                    $postHtml .= '<tr>
-                                  <td><a href="">'.$row['title'].'</a></td>
-                                  <td>'.$row['author_name'].'</td>
-                                  <td>'.$row['creation_date'].'</td>
-                                    <td> <span class="glyphicon glyphicon-bookmark"> <span class="badge"> '.$row['book_count'] .'</span>
-                                       <span class=" fa fa-caret-square-o-right"> <span class="badge"> '. $row['view']."</span>
-                                  </td>
-                                </tr>\n";
+                    while ( $obj = $res->fetch_object() ) {
+                        $postHtml .= '<tr>
+                                     <td><a href="">'. $obj->title . '</a></td>
+                                     <td>'. $obj->author_name .'</td>
+                                     <td>'.$obj->creation_date .'</td>
+                                     <td> <span class="glyphicon glyphicon-bookmark"> <span class="badge"> '. $obj->book_count .'</span> </td>'.
+                                     '<td>' .
+                                     '<span class=" fa fa-caret-square-o-right"> <span class="badge"> '. $obj->view ."</span>
+                                     </td>
+                                   </tr>\n";
+                    }
+                    $res->free();
                 }
-            }
-            //echo $postHtml;
+            } while ( $conn->more_results() && $conn->next_result() );
 
             //pagination
             $pageHtml .= '<div class="row">  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >';
             $pageHtml .= '<ul class="pagination">';
 
+            echo "testing : current page : " . $pageObj->current_page;
             if ($pageObj->current_page == 1 ) {
               $pageHtml .= '<li class="disabled">&laquo</li>';
             }
             else {
-              $pageHtml .= '<li><a href="'.$_PHP_SELF.'?page='.$pageObj->previous_page().'&rec=10'.'">&laquo;</a></li>';
+              $pageHtml .= '<li><a href="'. $_SERVER['PHP_SELF'] .'?page='.$pageObj->previous_page().'&rec=10'.'">&laquo;</a></li>';
             }
 
             $pageObj->pages_in_set();
 
-            foreach ($pageObj->page_set_pages as $pageNumber) {
+            foreach ($pageObj->page_set_pages as $pageNumber ) {
+
+                echo "\$pageNumber : ".$pageNumber;
 
                 if ( $pageNumber == $pageObj->current_page ) {
                 $pageHtml .= '<li class="active"><span>'.$pageNumber.'<span class="sr-only">(current)</span></span></li>';
                 }
                 else {
-                $pageHtml .= '<li><a href="'.$_PHP_SELF.'?page='.$pageNumber.'&rec=10'.'">'.$page.'</a></li>';
+                $pageHtml .= '<li><a href="'. $_SERVER['PHP_SELF'] .'?page='.$pageNumber.'&rec=10'.'">'. $pageNumber .'</a></li>';
                 }
             }
 
@@ -148,7 +152,10 @@
                 $pageHtml .= '<li class="disabled">&raquo;</li>';
             }
             else {
-                $pageHtml .= '<li><a href="'. $_PHP_SELF.'?page='.$pageObj->next_page().'&rec=10'.'">&raquo;</a></li>';
+                if ( is_null($pageObj->next_page()) ) {
+                    $pageHtml .= '<li><a href="'. $_SERVER['PHP_SELF'].'?page='.$pageObj->next_page().'&rec=10'.'">&raquo;</a></li>';
+                }
+
             }
 
             $pageHtml .= '</div> </div>';
