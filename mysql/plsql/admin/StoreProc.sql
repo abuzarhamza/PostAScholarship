@@ -156,21 +156,23 @@ begin
        order by creation_date;
 end; $$
 
+
 drop procedure if exists get_postview_for_admin;
-create procedure get_postview_for_admin(in_offset int,in_max_row int,in_post_type varchar(30))
+create procedure get_postview_for_admin(in_offset int,in_max_row int)
 begin
-    if (select count(id) from post where post_type = in_post_type) then
+    if (select count(id) from post where root = 1 ) then
         select p.id as id, p.title as title,p.creation_date as creation_date,p.lastedit_date as lastedit_date,p.post_type as post_type,p.book_count as book_count,p.view as view, u.user_name as author_name
           from post p
-          inner join user_profile u
-          on p.post_type = in_post_type
-         and p.root = 1
-         order by p.creation_date
-         limit in_offset,in_max_row;
+          inner join user_profile u on
+          p.root = 1
+          and p.author_id = u.id
+          order by p.creation_date
+          limit in_offset,in_max_row;
     else
-        select '0';
+        select 0 as 'post_count';
     end if;
-end; $$
+end;$$
+
 
 drop procedure if exists insert_post_for_admin;
 create procedure insert_post_for_admin(in_user_name varchar(30) , in_title varchar(250), in_content text, in_html text,in_slug varchar(250) , in_post_type varchar(50))
