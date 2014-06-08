@@ -95,10 +95,13 @@
           $offset     = 0;
         }
         else {
-          $offset    =  $pageObj->current_page * $recLimit;
+            if ( ! is_null($pageObj->previous_page() ) ) {
+                $offset  =  $pageObj->previous_page() * $recLimit;
+            }
         }
 
-        echo  "testing : \$postCount : " . $postCount . " \$offset" . $offset . " :  \$recLimit" .  $recLimit;
+        echo  "current page" . $pageObj->current_page  ."  testing : \$postCount : " . $postCount . " \$offset" . $offset . " :  \$recLimit : " .  $recLimit;
+
         if (! $conn->multi_query("CALL get_postview_for_admin($offset,$recLimit)")
         ) {
             $errorFlag =1;
@@ -126,7 +129,7 @@
             $pageHtml .= '<div class="row">  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >';
             $pageHtml .= '<ul class="pagination">';
 
-            echo "testing : current page : " . $pageObj->current_page;
+            //echo "testing : current page : " . $pageObj->current_page;
             if ($pageObj->current_page == 1 ) {
               $pageHtml .= '<li class="disabled">&laquo</li>';
             }
@@ -160,7 +163,7 @@
 
             $pageHtml .= '</div> </div>';
 
-
+            echo $pageHtml;
         }
         
     }
