@@ -139,6 +139,7 @@ create table if not exists post (
     url tinyint, -- used for post with linkouts
     sticky int not null default 0, -- stickiness of the post
     enable_answer tinyint,
+    root tinyint,--weather post is root or not
     foreign key (author_id) references user_profile(id),
     foreign key (lastedit_user_id) references user_profile(id)
 ) engine=innodb;
