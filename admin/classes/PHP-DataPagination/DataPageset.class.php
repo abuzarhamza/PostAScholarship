@@ -87,7 +87,7 @@
             if ( $this->current_page > 1) {
                 return $this->current_page - 1;
             } else {
-                return undef;
+                return NULL;
             }
         }
 
@@ -97,7 +97,7 @@
             ) {
                 return $this->current_page + 1;
             } else {
-                return undef;
+                return NULL;
             }
         }
 
@@ -106,7 +106,7 @@
                 return $this->page_set_previous;
             }
 
-            return undef;
+            return NULL;
         }
 
         public function next_set(){
@@ -114,13 +114,13 @@
                 return $this->page_set_next;
             }
 
-            return undef;
+            return NULL;
         }
 
         public function pages_in_set() {
 
             if (empty($this->pages_per_set))  {
-                return undef;
+                return NULL;
             }
             $max_pages_per_set = $this->pages_per_set;
 
