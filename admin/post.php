@@ -126,15 +126,15 @@
             } while ( $conn->more_results() && $conn->next_result() );
 
             //pagination
-            $pageHtml .= '<div class="row">  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >';
-            $pageHtml .= '<ul class="pagination">';
+            $pageHtml .= '<div class="row">  <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10 col-md-offset-1 col-lg-offset-1" >' . "\n";
+            $pageHtml .= '<ul class="pagination"> '."\n";
 
             //echo "testing : current page : " . $pageObj->current_page;
             if ($pageObj->current_page == 1 ) {
-              $pageHtml .= '<li class="disabled">&laquo</li>';
+              $pageHtml .= '<li class="disabled"> <a href="#"> &laquo </a></li>' ."\n";
             }
             else {
-              $pageHtml .= '<li><a href="'. $_SERVER['PHP_SELF'] .'?page='.$pageObj->previous_page().'&rec=10'.'">&laquo;</a></li>';
+              $pageHtml .= '<li><a href="'. $_SERVER['PHP_SELF'] .'?page='.$pageObj->previous_page().'&rec=10'.'">&laquo;</a></li>' ."\n";
             }
 
             $pageObj->pages_in_set();
@@ -151,12 +151,16 @@
                 }
             }
 
-            if ( $pageObj->current_page == $pageObj->last_page()) {
-                $pageHtml .= '<li class="disabled">&raquo;</li>';
+            if ( $pageObj->current_page == $pageObj->last_page() ) {
+                $pageHtml .= '<li class="disabled"><a href="#">&raquo;</a></li>';
             }
             else {
-                if ( is_null($pageObj->next_page()) ) {
-                    $pageHtml .= '<li><a href="'. $_SERVER['PHP_SELF'].'?page='.$pageObj->next_page().'&rec=10'.'">&raquo;</a></li>';
+
+                if ( ! is_null($pageObj->next_page()) ) {
+                    $pageHtml .= '<li><a href="'. $_SERVER['PHP_SELF'].'?page='.$pageObj->last_page().'&rec=10'.'">&raquo;</a></li>';
+                }
+                else {
+                    $pageHtml .= '<li><a href="'. $_SERVER['PHP_SELF'].'?page='.$pageObj->next_page().'&rec=10'.'"> &raquo;</a></li>';
                 }
 
             }
